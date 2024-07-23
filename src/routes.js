@@ -11,7 +11,6 @@ const FormControl = React.lazy(() => import('./views/forms/form-control/FormCont
 
 const Validation = React.lazy(() => import('./views/forms/validation/Validation'))
 
-const Charts = React.lazy(() => import('./views/charts/Charts'))
 
 // Icons
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
@@ -30,7 +29,6 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   
-  { path: '/charts', name: 'Charts', element: Charts },
   { path: '/forms', name: 'Forms', element: FormControl, exact: true },
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
  
