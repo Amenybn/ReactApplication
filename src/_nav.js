@@ -29,7 +29,7 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Base',
+    name: 'Reservation',
     to: '/base',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
@@ -44,7 +44,7 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Forms',
+    name: 'Films',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       {
@@ -63,7 +63,7 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Icons',
+    name: 'Users',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       
