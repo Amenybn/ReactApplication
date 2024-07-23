@@ -1,38 +1,119 @@
-import React from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { brandSet } from '@coreui/icons'
-import { DocsCallout } from 'src/components'
+import React, { useState } from 'react'
+import {
+  CCardBody,
+  CForm,
+  CCol,
+  CFormInput,
+  CFormLabel,
+  CButton,
+  CRow,
+  CFormSelect
+} from '@coreui/react'
 
-const toKebabCase = (str) => {
-  return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase()
-}
+const UserForm = () => {
+  const [validated, setValidated] = useState(false)
+  const [formData, setFormData] = useState({
+    userName: '',
+    email: '',
+    password: '',
+    role: 'customer' // default role
+  })
 
-export const getIconsView = (iconset) => {
-  return Object.entries(iconset).map(([name, value]) => (
-    <CCol className="mb-5" xs={6} sm={4} md={3} xl={2} key={name}>
-      <CIcon icon={value} size="xxl" />
-      <div>{toKebabCase(name)}</div>
-    </CCol>
-  ))
-}
+  const handleInputChange = (event) => {
+    const { name, value } = event.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
 
-const CoreUIIcons = () => {
+  const handleSubmit = (event) => {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    } else {
+      // Handle form submission, e.g., send data to server
+      console.log(formData)
+    }
+    setValidated(true)
+  }
+
+  const handleCancel = () => {
+    setFormData({
+      userName: '',
+      email: '',
+      password: '',
+      role: 'customer'
+    })
+    setValidated(false)
+  }
+
   return (
-    <>
-      <DocsCallout
-        name="CoreUI Brand Icons"
-        href="components/chart"
-        content="CoreUI Brand Icons. CoreUI Icons package is delivered with more than 1500 icons in multiple formats SVG, PNG, and Webfonts. CoreUI Icons are beautifully crafted symbols for common actions and items. You can use them in your digital products for web or mobile app."
-      />
-      <CCard className="mb-4">
-        <CCardHeader>Brand Icons</CCardHeader>
-        <CCardBody>
-          <CRow className="text-center">{getIconsView(brandSet)}</CRow>
-        </CCardBody>
-      </CCard>
-    </>
+    <CCardBody>
+      <CForm
+        className="row g-3 needs-validation"
+        noValidate
+        validated={validated}
+        onSubmit={handleSubmit}
+      >
+        <CCol md={6}>
+          <CFormInput
+            type="text"
+            name="userName"
+            label="User Name"
+            required
+            value={formData.userName}
+            onChange={handleInputChange}
+            feedbackInvalid="Please enter the user name."
+          />
+        </CCol>
+        <CCol md={6}>
+          <CFormInput
+            type="email"
+            name="email"
+            label="Email"
+            required
+            value={formData.email}
+            onChange={handleInputChange}
+            feedbackInvalid="Please enter a valid email address."
+          />
+        </CCol>
+        <CCol md={6}>
+          <CFormInput
+            type="password"
+            name="password"
+            label="Password"
+            required
+            value={formData.password}
+            onChange={handleInputChange}
+            feedbackInvalid="Please enter a password."
+          />
+        </CCol>
+        <CCol md={6}>
+          <CFormLabel htmlFor="role">Role</CFormLabel>
+          <CFormSelect
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+          </CFormSelect>
+        </CCol>
+        <CCol xs={12}>
+          <CButton color="primary" type="submit">
+            Submit form
+          </CButton>
+          <CButton color="secondary" type="button" onClick={handleCancel} className="ms-2">
+            Cancel
+          </CButton>
+        </CCol>
+      </CForm>
+    </CCardBody>
   )
 }
 
-export default CoreUIIcons
+export default UserForm
