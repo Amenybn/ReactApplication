@@ -18,10 +18,12 @@ import {
   CFormInput,
   CCol,
   CRow,
-  CFormSelect
+  CFormSelect,
+  CInputGroup,
+  CInputGroupText
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPencil, cilTrash } from '@coreui/icons'
+import { cilPencil, cilTrash, cilSearch } from '@coreui/icons'
 
 const UserTable = () => {
   const [users, setUsers] = useState([
@@ -34,14 +36,16 @@ const UserTable = () => {
     // Add more users as needed
   ])
 
+  const [filteredUsers, setFilteredUsers] = useState(users)
+  const [searchTerm, setSearchTerm] = useState('')
   const [editingUser, setEditingUser] = useState(null)
-  const [modalVisible, setModalVisible] = useState(false)
+  const [addUserModalVisible, setAddUserModalVisible] = useState(false)
   const [deleteModalVisible, setDeleteModalVisible] = useState(false)
   const [userToDelete, setUserToDelete] = useState(null)
 
   const handleEdit = (user) => {
     setEditingUser(user)
-    setModalVisible(true)
+    setAddUserModalVisible(true)
   }
 
   const handleDelete = (user) => {
@@ -63,16 +67,50 @@ const UserTable = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     setUsers(users.map((user) => (user.id === editingUser.id ? editingUser : user)))
-    setModalVisible(false)
+    setFilteredUsers(users.map((user) => (user.id === editingUser.id ? editingUser : user))) // Update filtered users as well
+    setAddUserModalVisible(false)
   }
 
   const handleCancel = () => {
     setEditingUser(null)
-    setModalVisible(false)
+    setAddUserModalVisible(false)
+  }
+
+  const handleSearchChange = (event) => {
+    const term = event.target.value
+    setSearchTerm(term)
+    setFilteredUsers(users.filter(user => user.userName.toLowerCase().includes(term.toLowerCase())))
+  }
+
+  const handleAddUser = () => {
+    setEditingUser(null)
+    setAddUserModalVisible(true)
   }
 
   return (
     <CCardBody>
+      <CRow className="mb-3 align-items-center">
+        <CCol md={8}>
+          <CInputGroup>
+            <CInputGroupText>
+              <CIcon icon={cilSearch} />
+            </CInputGroupText>
+            <CFormInput
+              type="text"
+              placeholder="Search users..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              style={{ maxWidth: '300px' }} // Reduce the size of the input field
+            />
+          </CInputGroup>
+        </CCol>
+        <CCol md={4} className="text-right">
+          <CButton color="primary" onClick={handleAddUser}>
+            Add User
+          </CButton>
+        </CCol>
+      </CRow>
+
       <CTable>
         <CTableHead>
           <CTableRow>
@@ -85,7 +123,7 @@ const UserTable = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <CTableRow key={user.id}>
               <CTableDataCell>
                 <CFormCheck />
@@ -110,62 +148,60 @@ const UserTable = () => {
 
       <CModal
         size="lg"
-        visible={modalVisible}
+        visible={addUserModalVisible}
         onClose={handleCancel}
-        aria-labelledby="EditUserModal"
+        aria-labelledby="AddEditUserModal"
       >
         <CModalHeader>
-          <CModalTitle id="EditUserModal">Edit User</CModalTitle>
+          <CModalTitle id="AddEditUserModal">{editingUser ? 'Edit User' : 'Add User'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          {editingUser && (
-            <CForm onSubmit={handleSubmit}>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
-                    name="userName"
-                    label="User Name"
-                    value={editingUser.userName}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="email"
-                    name="email"
-                    label="Email"
-                    value={editingUser.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormSelect
-                    name="role"
-                    label="Role"
-                    value={editingUser.role}
-                    onChange={handleInputChange}
-                    required
-                  >
-                    <option value="customer">Customer</option>
-                    <option value="admin">Admin</option>
-                  </CFormSelect>
-                </CCol>
-              </CRow>
-              <CModalFooter>
-                <CButton color="secondary" onClick={handleCancel}>
-                  Cancel
-                </CButton>
-                <CButton color="primary" type="submit">
-                  Save changes
-                </CButton>
-              </CModalFooter>
-            </CForm>
-          )}
+          <CForm onSubmit={handleSubmit}>
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  type="text"
+                  name="userName"
+                  label="User Name"
+                  value={editingUser?.userName || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="email"
+                  name="email"
+                  label="Email"
+                  value={editingUser?.email || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormSelect
+                  name="role"
+                  label="Role"
+                  value={editingUser?.role || ''}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="customer">Customer</option>
+                  <option value="admin">Admin</option>
+                </CFormSelect>
+              </CCol>
+            </CRow>
+            <CModalFooter>
+              <CButton color="secondary" onClick={handleCancel}>
+                Cancel
+              </CButton>
+              <CButton color="primary" type="submit">
+                Save changes
+              </CButton>
+            </CModalFooter>
+          </CForm>
         </CModalBody>
       </CModal>
 

@@ -18,10 +18,12 @@ import {
   CForm,
   CFormInput,
   CCol,
-  CRow
+  CRow,
+  CInputGroup,
+  CInputGroupText
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilPencil, cilTrash } from '@coreui/icons'
+import { cilPencil, cilTrash, cilSearch } from '@coreui/icons'
 
 const FilmTable = () => {
   const [films, setFilms] = useState([
@@ -39,6 +41,8 @@ const FilmTable = () => {
     // Add more films as needed
   ])
 
+  const [filteredFilms, setFilteredFilms] = useState(films)
+  const [searchTerm, setSearchTerm] = useState('')
   const [editingFilm, setEditingFilm] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -50,6 +54,12 @@ const FilmTable = () => {
   const handleDelete = (id) => {
     setFilms(films.filter((film) => film.id !== id))
     console.log('Deleted film with id:', id)
+  }
+
+  const handleSearchChange = (event) => {
+    const term = event.target.value
+    setSearchTerm(term)
+    setFilteredFilms(films.filter(film => film.filmName.toLowerCase().includes(term.toLowerCase())))
   }
 
   const handleInputChange = (event) => {
@@ -65,6 +75,7 @@ const FilmTable = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
     setFilms(films.map((film) => (film.id === editingFilm.id ? editingFilm : film)))
+    setFilteredFilms(films.map((film) => (film.id === editingFilm.id ? editingFilm : film))) // Update filtered films as well
     setModalVisible(false)
   }
 
@@ -75,6 +86,28 @@ const FilmTable = () => {
 
   return (
     <CCardBody>
+      <CRow className="mb-3 align-items-center">
+        <CCol md={8}>
+          <CInputGroup>
+            <CInputGroupText>
+              <CIcon icon={cilSearch} />
+            </CInputGroupText>
+            <CFormInput
+              type="text"
+              placeholder="Search films..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              style={{ maxWidth: '300px' }} // Reduce the size of the input field
+            />
+          </CInputGroup>
+        </CCol>
+        <CCol md={4} className="text-right">
+          <CButton color="primary" onClick={() => setModalVisible(true)}>
+            Add New Film
+          </CButton>
+        </CCol>
+      </CRow>
+
       <CTable>
         <CTableHead>
           <CTableRow>
@@ -92,7 +125,7 @@ const FilmTable = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {films.map((film) => (
+          {filteredFilms.map((film) => (
             <CTableRow key={film.id}>
               <CTableDataCell>
                 <CFormCheck />
@@ -129,112 +162,110 @@ const FilmTable = () => {
         aria-labelledby="EditFilmModal"
       >
         <CModalHeader>
-          <CModalTitle id="EditFilmModal">Edit Film</CModalTitle>
+          <CModalTitle id="EditFilmModal">{editingFilm ? 'Edit Film' : 'Add New Film'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          {editingFilm && (
-            <CForm onSubmit={handleSubmit}>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
-                    name="filmName"
-                    label="Film Name"
-                    value={editingFilm.filmName}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="text"
-                    name="room"
-                    label="Room"
-                    value={editingFilm.room}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormInput
-                    type="number"
-                    name="adultPrice"
-                    label="Adult Price"
-                    value={editingFilm.adultPrice}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="number"
-                    name="childPrice"
-                    label="Child Price"
-                    value={editingFilm.childPrice}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
-              <CRow className="mb-3">
-                <CCol md={6}>
-                  <CFormInput
-                    type="number"
-                    name="numberOfPlaces"
-                    label="Number of Places"
-                    value={editingFilm.numberOfPlaces}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-                <CCol md={6}>
-                  <CFormInput
-                    type="date"
-                    name="date"
-                    label="Date"
-                    value={editingFilm.date}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
-              <CRow className="mb-3">
-                <CCol md={12}>
-                  <CFormInput
-                    type="textarea"
-                    name="description"
-                    label="Description"
-                    value={editingFilm.description}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </CCol>
-              </CRow>
-              <CRow className="mb-3">
-                <CCol md={12}>
-                  <CFormInput
-                    type="file"
-                    name="filmImage"
-                    label="Film Image"
-                    onChange={handleImageChange}
-                  />
-                  {editingFilm.filmImage && (
-                    <CImage src={editingFilm.filmImage} alt="Selected" width={100} height={100} />
-                  )}
-                </CCol>
-              </CRow>
-              <CModalFooter>
-                <CButton color="secondary" onClick={handleCancel}>
-                  Cancel
-                </CButton>
-                <CButton color="primary" type="submit">
-                  Save changes
-                </CButton>
-              </CModalFooter>
-            </CForm>
-          )}
+          <CForm onSubmit={handleSubmit}>
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  type="text"
+                  name="filmName"
+                  label="Film Name"
+                  value={editingFilm?.filmName || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="text"
+                  name="room"
+                  label="Room"
+                  value={editingFilm?.room || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  type="number"
+                  name="adultPrice"
+                  label="Adult Price"
+                  value={editingFilm?.adultPrice || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="number"
+                  name="childPrice"
+                  label="Child Price"
+                  value={editingFilm?.childPrice || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={6}>
+                <CFormInput
+                  type="number"
+                  name="numberOfPlaces"
+                  label="Number of Places"
+                  value={editingFilm?.numberOfPlaces || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="date"
+                  name="date"
+                  label="Date"
+                  value={editingFilm?.date || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={12}>
+                <CFormInput
+                  type="textarea"
+                  name="description"
+                  label="Description"
+                  value={editingFilm?.description || ''}
+                  onChange={handleInputChange}
+                  required
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol md={12}>
+                <CFormInput
+                  type="file"
+                  name="filmImage"
+                  label="Film Image"
+                  onChange={handleImageChange}
+                />
+                {editingFilm?.filmImage && (
+                  <CImage src={editingFilm.filmImage} alt="Selected" width={100} height={100} />
+                )}
+              </CCol>
+            </CRow>
+            <CModalFooter>
+              <CButton color="secondary" onClick={handleCancel}>
+                Cancel
+              </CButton>
+              <CButton color="primary" type="submit">
+                Save changes
+              </CButton>
+            </CModalFooter>
+          </CForm>
         </CModalBody>
       </CModal>
     </CCardBody>
