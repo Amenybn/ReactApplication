@@ -13,7 +13,6 @@ const Validation = React.lazy(() => import('./views/forms/validation/Validation'
 
 
 // Icons
-const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
 const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 
@@ -27,8 +26,6 @@ const routes = [
   { path: '/forms/form-control', name: 'Form Control', element: FormControl },
  
   { path: '/forms/validation', name: 'Validation', element: Validation },
-  { path: '/icons', exact: true, name: 'Icons', element: CoreUIIcons },
-  { path: '/icons/coreui-icons', name: 'CoreUI Icons', element: CoreUIIcons },
   { path: '/icons/flags', name: 'Flags', element: Flags },
   { path: '/icons/brands', name: 'Brands', element: Brands },
 ]
