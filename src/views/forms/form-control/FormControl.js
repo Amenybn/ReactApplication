@@ -18,8 +18,10 @@ import {
   CForm,
   CFormInput,
   CCol,
-  CRow,
+  CRow
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilPencil, cilTrash } from '@coreui/icons'
 
 const FilmTable = () => {
   const [films, setFilms] = useState([
@@ -107,12 +109,12 @@ const FilmTable = () => {
               <CTableDataCell>{film.description}</CTableDataCell>
               <CTableDataCell>
                 <CButton color="warning" onClick={() => handleEdit(film)}>
-                  Edit
+                  <CIcon icon={cilPencil} />
                 </CButton>
               </CTableDataCell>
               <CTableDataCell>
                 <CButton color="danger" onClick={() => handleDelete(film.id)}>
-                  Delete
+                  <CIcon icon={cilTrash} />
                 </CButton>
               </CTableDataCell>
             </CTableRow>
