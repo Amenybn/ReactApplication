@@ -34,7 +34,7 @@ const UserForm = () => {
       event.stopPropagation()
     } else {
       // Handle form submission, e.g., send data to server
-      console.log(formData)
+      console.log('Form Data Submitted:', formData)
     }
     setValidated(true)
   }
@@ -58,10 +58,11 @@ const UserForm = () => {
         onSubmit={handleSubmit}
       >
         <CCol md={6}>
+          <CFormLabel htmlFor="userName">User Name</CFormLabel>
           <CFormInput
             type="text"
+            id="userName"
             name="userName"
-            label="User Name"
             required
             value={formData.userName}
             onChange={handleInputChange}
@@ -69,10 +70,11 @@ const UserForm = () => {
           />
         </CCol>
         <CCol md={6}>
+          <CFormLabel htmlFor="email">Email</CFormLabel>
           <CFormInput
             type="email"
+            id="email"
             name="email"
-            label="Email"
             required
             value={formData.email}
             onChange={handleInputChange}
@@ -80,10 +82,11 @@ const UserForm = () => {
           />
         </CCol>
         <CCol md={6}>
+          <CFormLabel htmlFor="password">Password</CFormLabel>
           <CFormInput
             type="password"
+            id="password"
             name="password"
-            label="Password"
             required
             value={formData.password}
             onChange={handleInputChange}
