@@ -25,7 +25,7 @@ const FormControl = () => {
             <DocsExample href="forms/form-control">
               <CForm>
                 <div className="mb-3">
-                  <CFormLabel htmlFor="exampleFormControlInput1">Email address</CFormLabel>
+                  <CFormLabel htmlFor="exampleFormControlInput1">Email address test</CFormLabel>
                   <CFormInput
                     type="email"
                     id="exampleFormControlInput1"
