@@ -26,26 +26,7 @@ const _nav = [
       text: 'NEW',
     },
   },
-  {
-    component: CNavTitle,
-    name: 'Theme',
-  },
-  {
-    component: CNavItem,
-    name: 'Colors',
-    to: '/theme/colors',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Typography',
-    to: '/theme/typography',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavTitle,
-    name: 'Components',
-  },
+ 
   {
     component: CNavGroup,
     name: 'Base',
@@ -107,10 +88,6 @@ const _nav = [
     ],
   },
  
-  {
-    component: CNavTitle,
-    name: 'Extras',
-  },
   {
     component: CNavGroup,
     name: 'Pages',
