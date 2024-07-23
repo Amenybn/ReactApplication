@@ -106,34 +106,7 @@ const _nav = [
       },
     ],
   },
-  {
-    component: CNavGroup,
-    name: 'Notifications',
-    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Alerts',
-        to: '/notifications/alerts',
-      },
-      {
-        component: CNavItem,
-        name: 'Badges',
-        to: '/notifications/badges',
-      },
-      {
-        component: CNavItem,
-        name: 'Modal',
-        to: '/notifications/modals',
-      },
-      {
-        component: CNavItem,
-        name: 'Toasts',
-        to: '/notifications/toasts',
-      },
-    ],
-  },
-
+ 
   {
     component: CNavTitle,
     name: 'Extras',

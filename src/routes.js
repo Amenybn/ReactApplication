@@ -17,12 +17,6 @@ const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIc
 const Flags = React.lazy(() => import('./views/icons/flags/Flags'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 
-// Notifications
-const Alerts = React.lazy(() => import('./views/notifications/alerts/Alerts'))
-const Badges = React.lazy(() => import('./views/notifications/badges/Badges'))
-const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
-const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
-
 
 const routes = [
   { path: '/', exact: true, name: 'Home', element: Dashboard },
@@ -37,11 +31,6 @@ const routes = [
   { path: '/icons/coreui-icons', name: 'CoreUI Icons', element: CoreUIIcons },
   { path: '/icons/flags', name: 'Flags', element: Flags },
   { path: '/icons/brands', name: 'Brands', element: Brands },
-  { path: '/notifications', name: 'Notifications', element: Alerts, exact: true },
-  { path: '/notifications/alerts', name: 'Alerts', element: Alerts },
-  { path: '/notifications/badges', name: 'Badges', element: Badges },
-  { path: '/notifications/modals', name: 'Modals', element: Modals },
-  { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
 ]
 
 export default routes
