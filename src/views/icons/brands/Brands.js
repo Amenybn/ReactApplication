@@ -51,6 +51,8 @@ const UserForm = () => {
 
   return (
     <CCardBody>
+           <h3 className="mb-4" style={{ color: '#e67e30' }}>ADD NEW USER</h3>
+
       <CForm
         className="row g-3 needs-validation"
         noValidate

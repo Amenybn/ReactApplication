@@ -87,8 +87,11 @@ const FilmTable = () => {
   return (
     <CCardBody>
       <CRow className="mb-3 align-items-center">
-        <CCol md={8}>
-          <CInputGroup>
+        <CCol md={6}>
+          <h3>List of Films</h3>
+        </CCol>
+        <CCol md={6} className="d-flex justify-content-end align-items-center">
+          <CInputGroup style={{ maxWidth: '300px', marginRight: '10px' }}>
             <CInputGroupText>
               <CIcon icon={cilSearch} />
             </CInputGroupText>
@@ -97,11 +100,8 @@ const FilmTable = () => {
               placeholder="Search films..."
               value={searchTerm}
               onChange={handleSearchChange}
-              style={{ maxWidth: '300px' }} // Reduce the size of the input field
             />
           </CInputGroup>
-        </CCol>
-        <CCol md={4} className="text-right">
           <CButton color="primary" onClick={() => setModalVisible(true)}>
             Add New Film
           </CButton>

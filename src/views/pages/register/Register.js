@@ -1,8 +1,10 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
   CCardBody,
+  CCardGroup,
   CCol,
   CContainer,
   CForm,
@@ -13,54 +15,99 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import logo from 'src/assets/images/cineclickLOGO.png' // Adjust the path if needed
 
 const Register = () => {
   return (
-    <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+    <div className="bg-body-tertiary min-vh-100 d-flex flex-column align-items-center">
       <CContainer>
+        <CRow className="justify-content-center mb-3">
+          <CCol md={4} className="text-center" style={{ marginTop: '30px', marginBottom: '30px' ,  marginLeft: '-800px'}}>
+            <img src={logo} alt="CineClick Logo" style={{ maxWidth: '100%' }} />
+          </CCol>
+        </CRow>
         <CRow className="justify-content-center">
-          <CCol md={9} lg={7} xl={6}>
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                <CForm>
-                  <h1>Register</h1>
-                  <p className="text-body-secondary">Create your account</p>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                    <CFormInput placeholder="Username" autoComplete="username" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>@</CInputGroupText>
-                    <CFormInput placeholder="Email" autoComplete="email" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilLockLocked} />
-                    </CInputGroupText>
-                    <CFormInput
-                      type="password"
-                      placeholder="Password"
-                      autoComplete="new-password"
-                    />
-                  </CInputGroup>
-                  <CInputGroup className="mb-4">
-                    <CInputGroupText>
-                      <CIcon icon={cilLockLocked} />
-                    </CInputGroupText>
-                    <CFormInput
-                      type="password"
-                      placeholder="Repeat password"
-                      autoComplete="new-password"
-                    />
-                  </CInputGroup>
-                  <div className="d-grid">
-                    <CButton color="success">Create Account</CButton>
+          <CCol md={8}>
+            <CCardGroup>
+              <CCard className="p-4">
+                <CCardBody>
+                  <CForm>
+                    <h1>Register</h1>
+                    <p className="text-body-secondary">Create your account</p>
+                    <CInputGroup className="mb-3">
+                      <CInputGroupText>
+                        <CIcon icon={cilUser} />
+                      </CInputGroupText>
+                      <CFormInput placeholder="Username" autoComplete="username" />
+                    </CInputGroup>
+                    <CInputGroup className="mb-3">
+                      <CInputGroupText>@</CInputGroupText>
+                      <CFormInput placeholder="Email" autoComplete="email" />
+                    </CInputGroup>
+                    <CInputGroup className="mb-3">
+                      <CInputGroupText>
+                        <CIcon icon={cilLockLocked} />
+                      </CInputGroupText>
+                      <CFormInput
+                        type="password"
+                        placeholder="Password"
+                        autoComplete="new-password"
+                      />
+                    </CInputGroup>
+                    <CInputGroup className="mb-4">
+                      <CInputGroupText>
+                        <CIcon icon={cilLockLocked} />
+                      </CInputGroupText>
+                      <CFormInput
+                        type="password"
+                        placeholder="Repeat password"
+                        autoComplete="new-password"
+                      />
+                    </CInputGroup>
+                    <div className="d-grid">
+                      <CButton
+                        style={{
+                          backgroundColor: '#5183a4',
+                          borderColor: '#5183a4',
+                          color: '#ffffff',
+                        }}
+                      >
+                        Create Account
+                      </CButton>
+                    </div>
+                  </CForm>
+                </CCardBody>
+              </CCard>
+              <CCard
+                className="text-white py-5 d-flex justify-content-center align-items-center"
+                style={{ width: '44%', backgroundColor: '#e67e30' }} // Orange background
+              >
+                <CCardBody className="text-center">
+                  <div>
+                    <br></br>
+                    <br></br>
+                    <h2>Login</h2>
+                    <br></br>
+                    <p>Already have an account?</p>
+                    <p>Sign in to your account.</p>
+                    <Link to="/login">
+                      <CButton
+                        style={{
+                          backgroundColor: '#417495',
+                          borderColor: '#417495',
+                          color: '#ffffff',
+                        }}
+                        className="mt-3"
+                        active
+                        tabIndex={-1}
+                      >
+                        Login Now!
+                      </CButton>
+                    </Link>
                   </div>
-                </CForm>
-              </CCardBody>
-            </CCard>
+                </CCardBody>
+              </CCard>
+            </CCardGroup>
           </CCol>
         </CRow>
       </CContainer>

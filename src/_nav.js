@@ -1,6 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
+  cilUser,
   cilBell,
   cilCalculator,
   cilChartPie,
@@ -29,13 +30,13 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Reservation',
+    name: 'Reservations',
     to: '/base',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Accordion',
+        name: 'List of Reservations',
         to: '/base/accordion',
       },
       
@@ -44,18 +45,18 @@ const _nav = [
  
   {
     component: CNavGroup,
-    name: 'Films',
+    name: 'Movies',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Form Control',
+        name: 'List of movies',
         to: '/forms/form-control',
       },
     
       {
         component: CNavItem,
-        name: 'Validation',
+        name: 'Add a Movie',
         to: '/forms/validation',
       },
     ],
@@ -64,41 +65,23 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Users',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
     items: [
       
       {
         component: CNavItem,
-        name: 'CoreUI Flags',
+        name: 'List of users',
         to: '/icons/flags',
       },
       {
         component: CNavItem,
-        name: 'CoreUI Brands',
+        name: 'Add user',
         to: '/icons/brands',
       },
     ],
   },
  
-  {
-    component: CNavGroup,
-    name: 'Pages',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Login',
-        to: '/login',
-      },
-      {
-        component: CNavItem,
-        name: 'Register',
-        to: '/register',
-      },
-     
-    ],
-  },
-
+ 
 ]
 
 export default _nav

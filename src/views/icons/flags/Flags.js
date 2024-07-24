@@ -90,7 +90,10 @@ const UserTable = () => {
   return (
     <CCardBody>
       <CRow className="mb-3 align-items-center">
-        <CCol md={8}>
+        <CCol md={6}>
+          <h3>LIST OF USERS</h3>
+        </CCol>
+        <CCol md={4}>
           <CInputGroup>
             <CInputGroupText>
               <CIcon icon={cilSearch} />
@@ -104,7 +107,7 @@ const UserTable = () => {
             />
           </CInputGroup>
         </CCol>
-        <CCol md={4} className="text-right">
+        <CCol md={2} className="text-right">
           <CButton color="primary" onClick={handleAddUser}>
             Add User
           </CButton>

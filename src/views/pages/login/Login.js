@@ -15,11 +15,17 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import logo from 'src/assets/images/cineclickLOGO.png' // Adjust the path if needed
 
 const Login = () => {
   return (
-    <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+    <div className="bg-body-tertiary min-vh-100 d-flex flex-column align-items-center">
       <CContainer>
+        <CRow className="justify-content-center mb-3">
+          <CCol md={4} className="text-center" style={{ marginTop: '30px', marginBottom: '30px', marginLeft: '-800px' }}>
+            <img src={logo} alt="CineClick Logo" style={{ maxWidth: '100%' }} />
+          </CCol>
+        </CRow>
         <CRow className="justify-content-center">
           <CCol md={8}>
             <CCardGroup>
@@ -46,7 +52,7 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton style={{ backgroundColor: '#5183a4', borderColor: '#5183a4' }} className="px-4">
                           Login
                         </CButton>
                       </CCol>
@@ -59,7 +65,10 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              <CCard
+                className="text-white py-5"
+                style={{ width: '44%', backgroundColor: '#e67e30' }}
+              >
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
@@ -68,7 +77,7 @@ const Login = () => {
                       tempor incididunt ut labore et dolore magna aliqua.
                     </p>
                     <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
+                      <CButton style={{ backgroundColor: '#417495', borderColor: '#417495', color: '#ffffff' }} className="mt-3" active tabIndex={-1}>
                         Register Now!
                       </CButton>
                     </Link>
