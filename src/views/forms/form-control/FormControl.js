@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import {
   CCardBody,
   CTable,
@@ -20,46 +21,69 @@ import {
   CCol,
   CRow,
   CInputGroup,
-  CInputGroupText
+  CInputGroupText,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilPencil, cilTrash, cilSearch } from '@coreui/icons'
 
 const FilmTable = () => {
-  const [films, setFilms] = useState([
-    {
-      id: 1,
-      filmImage: 'https://via.placeholder.com/100',
-      filmName: 'Film 1',
-      adultPrice: 10,
-      childPrice: 5,
-      room: 'Room 1',
-      numberOfPlaces: 100,
-      date: '2024-07-25',
-      description: 'Description 1',
-    },
-    // Add more films as needed
-  ])
-
-  const [filteredFilms, setFilteredFilms] = useState(films)
+  const [films, setFilms] = useState([])
+  const [filteredFilms, setFilteredFilms] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [editingFilm, setEditingFilm] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
+
+  useEffect(() => {
+    const fetchFilms = async () => {
+      try {
+        const response = await axios.get(
+          'https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/products',
+        )
+        const responseData = JSON.parse(response.data.body)
+
+        if (Array.isArray(responseData)) {
+          setFilms(responseData)
+          setFilteredFilms(responseData)
+        } else {
+          console.error('Error: Response data is not an array', responseData)
+        }
+      } catch (error) {
+        console.error('Error fetching films:', error)
+      }
+    }
+    fetchFilms()
+  }, [editingFilm])
 
   const handleEdit = (film) => {
     setEditingFilm(film)
     setModalVisible(true)
   }
 
-  const handleDelete = (id) => {
-    setFilms(films.filter((film) => film.id !== id))
-    console.log('Deleted film with id:', id)
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(
+        'https://e8z9o2hxm4.execute-api.us-east-1.amazonaws.com/dev/Film',
+        {
+          data: { id },
+        },
+      )
+      console.log(response)
+      if (response.status === 200) {
+        setFilms(films.filter((film) => film.id !== id))
+        setFilteredFilms(filteredFilms.filter((film) => film.id !== id))
+        console.log('Deleted film with id:', id)
+      } else {
+        console.error('Failed to delete film:', response)
+      }
+    } catch (error) {
+      console.error('Error deleting film:', error)
+    }
   }
 
   const handleSearchChange = (event) => {
     const term = event.target.value
     setSearchTerm(term)
-    setFilteredFilms(films.filter(film => film.filmName.toLowerCase().includes(term.toLowerCase())))
+    setFilteredFilms(films.filter((film) => film.name.toLowerCase().includes(term.toLowerCase())))
   }
 
   const handleInputChange = (event) => {
@@ -72,11 +96,28 @@ const FilmTable = () => {
     setEditingFilm({ ...editingFilm, filmImage: URL.createObjectURL(file) })
   }
 
-  const handleSubmit = (event) => {
+  const handleEditSubmit = async (event) => {
     event.preventDefault()
-    setFilms(films.map((film) => (film.id === editingFilm.id ? editingFilm : film)))
-    setFilteredFilms(films.map((film) => (film.id === editingFilm.id ? editingFilm : film))) // Update filtered films as well
-    setModalVisible(false)
+    try {
+      const response = await axios.put(
+        'https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/product',
+        JSON.stringify(editingFilm),
+      )
+      console.log(response.data)
+      if (response.status === 200) {
+        const updatedFilm = response.data
+        setFilms(films.map((film) => (film.id === updatedFilm.id ? updatedFilm : film)))
+        setFilteredFilms(
+          filteredFilms.map((film) => (film.id === updatedFilm.id ? updatedFilm : film)),
+        )
+        setModalVisible(false)
+        console.log('Updated film with id:')
+      } else {
+        console.error('Failed to update film:', response)
+      }
+    } catch (error) {
+      console.error('Error updating film:', error)
+    }
   }
 
   const handleCancel = () => {
@@ -125,33 +166,39 @@ const FilmTable = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {filteredFilms.map((film) => (
-            <CTableRow key={film.id}>
-              <CTableDataCell>
-                <CFormCheck />
-              </CTableDataCell>
-              <CTableDataCell>
-                <CImage src={film.filmImage} alt={film.filmName} width={50} height={50} />
-              </CTableDataCell>
-              <CTableDataCell>{film.filmName}</CTableDataCell>
-              <CTableDataCell>${film.adultPrice}</CTableDataCell>
-              <CTableDataCell>${film.childPrice}</CTableDataCell>
-              <CTableDataCell>{film.room}</CTableDataCell>
-              <CTableDataCell>{film.numberOfPlaces}</CTableDataCell>
-              <CTableDataCell>{film.date}</CTableDataCell>
-              <CTableDataCell>{film.description}</CTableDataCell>
-              <CTableDataCell>
-                <CButton color="warning" onClick={() => handleEdit(film)}>
-                  <CIcon icon={cilPencil} />
-                </CButton>
-              </CTableDataCell>
-              <CTableDataCell>
-                <CButton color="danger" onClick={() => handleDelete(film.id)}>
-                  <CIcon icon={cilTrash} />
-                </CButton>
-              </CTableDataCell>
-            </CTableRow>
-          ))}
+          {Array.isArray(filteredFilms) &&
+            filteredFilms.map((film) => (
+              <CTableRow key={film.id}>
+                <CTableDataCell>
+                  <CFormCheck />
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CImage
+                    src="https://amani-layer.s3.us-east-1.amazonaws.com/t%C3%A9l%C3%A9chargement.jpeg?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAIaCXVzLWVhc3QtMSJHMEUCIHiMnFpWa3xHRbXH0HCMgpjFJBguP0lSMB4BWx4uZBzmAiEA8k4ssIVBXkPCEZ4AiK3BhyIyMbZxh7kmvjnMIT4vP9sq3gMI2%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw4OTA3MTU1MTM3MzciDLjR122v0q%2B9mYrAaiqyA3V%2BpS%2FhpKn8tJ2NZ1IxJ5%2FVqYC0qPyTsO0NNjNbwlnMQf7oNqeFyMeHGWS5ru0A%2BPdpbTBSBK6wKcru4DQzEhKlFtfs1bx3J8EUuQlGZ7LU1WdNpSAUHczM6mf8ybu3rJ8ycHD9t5R%2Fb728tewMLUYzrVhFnY8jjkPHNhDXRAqa05uM1yAsHMwZRw3W%2BWC1RxlkMQL%2BwTW9SKGpTpT7s7DMwmjA2cemWrjOn5IDRD%2FuFXAofttywWXdJE%2BS9ilrO28f%2FZ3sE0seFafL5dX5kprNH5TIvYMlOG9Mvvb%2BtOLOIKm8NDXgEEl8lmzZRCeOtsGQODFN%2FISs3Ek5vKar5qu6EeVd2sYqVfKm8PUYt1UR%2BfdcD%2FtcOVpOfO6mgjoJDjMQorH%2BudBIdS7RYowtHIVeINBLUkLsjDr1Soic7eEyApsGDVNZdD3wklIGY6nbWwySHGkXp1XjrU4bEwj2SgDR7nWlLqwoB8imVqYhXz2PPdu8UwmfCo6saDyqxKW8Jp3HCnpkF92ADuf2FIK6h%2F%2FJL0L3hQwh9NCFlGk8%2BhbxKfeXMM36yp83Ve6fzUBzT2w3MMCqj7UGOpQCVZ37M8%2FsNkSuTGtjs%2B1Y3fppEIEh11Q3i%2BTojMACDWDay%2FP7GG0GjgkWCTiRhgTtpZRMUcxKc7py2TrDQf1xNovDKzgUgBlpxHVOiBxNHedYep0LtsqK8%2Bpys0KG%2BI7ms6RBC70eZk%2B4Ez0Z6u7ANRfL79dn2PyQQHWhV7nglJQHDE%2FBlot%2FXISC254%2BcXH1NCf7LC3sNGsJ7ttZ2TkCaIAXSl6Tlob8DcCeonaA1ZiORYB7g5wCoEO9yt16LWHeTQt1D5K8GAjsWS6SucoA6pvKCReTNqSTNRg7hTdBqU%2FFxOyg493ou3gH7WmbipNmoCc0APDc2LkBvMccFelYHzILki4G8qKauKdcSAJ4rG%2Bo07xl&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240726T173003Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA46YWIEOE3POUN3VY%2F20240726%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=a45d5df9b162245bc797245f1abebf371249ded077a793f37efd7ac880d47226"
+                    alt={film.name}
+                    width={50}
+                    height={50}
+                  />
+                </CTableDataCell>
+                <CTableDataCell>{film.name}</CTableDataCell>
+                <CTableDataCell>${film.adultPrice}</CTableDataCell>
+                <CTableDataCell>${film.childPrice}</CTableDataCell>
+                <CTableDataCell>{film.room}</CTableDataCell>
+                <CTableDataCell>{film.numberOfPlaces}</CTableDataCell>
+                <CTableDataCell>{film.date}</CTableDataCell>
+                <CTableDataCell>{film.description}</CTableDataCell>
+                <CTableDataCell>
+                  <CButton color="warning" onClick={() => handleEdit(film)}>
+                    <CIcon icon={cilPencil} />
+                  </CButton>
+                </CTableDataCell>
+                <CTableDataCell>
+                  <CButton color="danger" onClick={() => handleDelete(film.id)}>
+                    <CIcon icon={cilTrash} />
+                  </CButton>
+                </CTableDataCell>
+              </CTableRow>
+            ))}
         </CTableBody>
       </CTable>
 
@@ -165,14 +212,14 @@ const FilmTable = () => {
           <CModalTitle id="EditFilmModal">{editingFilm ? 'Edit Film' : 'Add New Film'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <CForm onSubmit={handleSubmit}>
+          <CForm onSubmit={handleEditSubmit}>
             <CRow className="mb-3">
               <CCol md={6}>
                 <CFormInput
                   type="text"
-                  name="filmName"
+                  name="name"
                   label="Film Name"
-                  value={editingFilm?.filmName || ''}
+                  value={editingFilm?.name || ''}
                   onChange={handleInputChange}
                   required
                 />
@@ -245,7 +292,7 @@ const FilmTable = () => {
               </CCol>
             </CRow>
             <CRow className="mb-3">
-              <CCol md={12}>
+              <CCol md={6}>
                 <CFormInput
                   type="file"
                   name="filmImage"
