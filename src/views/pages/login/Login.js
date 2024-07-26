@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -18,6 +18,13 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import logo from 'src/assets/images/cineclickLOGO.png' // Adjust the path if needed
 
 const Login = () => {
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  const handleLogin = () => {
+    // Navigate to HomePage on login
+    navigate('../../../homePage'); // Adjust this path according to your routing setup
+  };
+
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-column align-items-center">
       <CContainer>
@@ -52,7 +59,11 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton style={{ backgroundColor: '#5183a4', borderColor: '#5183a4' }} className="px-4">
+                        <CButton
+                          style={{ backgroundColor: '#5183a4', borderColor: '#5183a4' }}
+                          className="px-4"
+                          onClick={handleLogin} // Add the click handler
+                        >
                           Login
                         </CButton>
                       </CCol>
@@ -77,7 +88,12 @@ const Login = () => {
                       tempor incididunt ut labore et dolore magna aliqua.
                     </p>
                     <Link to="/register">
-                      <CButton style={{ backgroundColor: '#417495', borderColor: '#417495', color: '#ffffff' }} className="mt-3" active tabIndex={-1}>
+                      <CButton
+                        style={{ backgroundColor: '#417495', borderColor: '#417495', color: '#ffffff' }}
+                        className="mt-3"
+                        active
+                        tabIndex={-1}
+                      >
                         Register Now!
                       </CButton>
                     </Link>
