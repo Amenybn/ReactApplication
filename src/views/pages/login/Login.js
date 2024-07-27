@@ -31,7 +31,7 @@ const Login = () => {
       await signIn(username, password)
       // Redirect to the app's main page or dashboard
       setTimeout(() => {
-        navigate('/') // Corrected usage of navigate
+        navigate('/home') // Corrected usage of navigate
       }, 3000) // Removed unnecessary array brackets
     } catch (err) {
       setError(err.message)
