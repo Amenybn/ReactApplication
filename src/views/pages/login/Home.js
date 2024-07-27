@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importez useNavigate
 import axios from 'axios';
 import '../../../css/bootstrap.css';
 import '../../../css/font-awesome.min.css';
@@ -7,8 +8,17 @@ import '../../../css/responsive.css';
 import logo from '../../../images/about-img.png'; 
 
 const HomePage = () => {
+  const navigate = useNavigate(); // Initialisez navigate ici
   const [films, setFilms] = useState([]);
 
+  const detail = () => {
+    navigate('/detailProduct'); // Ajustez ce chemin selon votre configuration de routage
+  };
+
+  const handleSeeMore = (event) => {
+    event.preventDefault(); // Prévenez le comportement par défaut de l'ancre
+    detail(); // Appelez la fonction detail
+  };
   useEffect(() => {
     const fetchFilms = async () => {
       try {
@@ -209,7 +219,18 @@ const HomePage = () => {
           <div className="portfolio_list">
             {films.map((film) => (
               <div className="portfolio_item" key={film.productID}>
-                <img src={film.imageUrl || logo} alt={film.name} /> {/* Utilisez film.imageUrl si disponible */}
+                <div className="owl-carousel portfolio_carousel">
+          <div className="item decorative">
+            <div className="box">
+              <div className="img-box">
+                <img src="images/p1.jpg" alt="" />
+                <div className="btn_overlay">
+  <a href="#" className="btn" onClick={handleSeeMore}>See More</a>
+</div>
+              </div>
+            </div>
+          </div>
+        </div> {/* Utilisez film.imageUrl si disponible */}
                 <div className="portfolio_info">
                   <h2 className="titlee">{film.name}</h2>
                   <span className="date">

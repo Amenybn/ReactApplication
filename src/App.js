@@ -12,6 +12,7 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 const HomePage = React.lazy(() => import('./views/pages/login/Home'))
+const DetailProdcut = React.lazy(() => import('./views/pages/login/detailProduct'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
@@ -44,7 +45,9 @@ const App = () => {
           <Route exact path="/login" name="Login Page" element={<Login />} />
           <Route exact path="/register" name="Register Page" element={<Register />} />
           <Route path="/homePage" element={<HomePage />} />
+          <Route path="/detailProduct" element={<DetailProdcut />} />
           <Route path="*" name="Home" element={<DefaultLayout />} />
+          
         </Routes>
       </Suspense>
     </HashRouter>
