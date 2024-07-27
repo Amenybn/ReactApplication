@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 
@@ -11,8 +10,7 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
-const HomePage = React.lazy(() => import('./views/pages/login/Home'))
-const DetailProdcut = React.lazy(() => import('./views/pages/login/detailProduct'))
+const ConfirmSignUp = React.lazy(() => import('./views/pages/register/ConfirmlSignUp'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
@@ -44,10 +42,15 @@ const App = () => {
         <Routes>
           <Route exact path="/login" name="Login Page" element={<Login />} />
           <Route exact path="/register" name="Register Page" element={<Register />} />
-          <Route path="/homePage" element={<HomePage />} />
-          <Route path="/detailProduct" element={<DetailProdcut />} />
+          <Route exact path="/confirmSignUp" name="Register Page" element={<ConfirmSignUp />} />
+          <Route
+            exact
+            path="/ConfirmSignUp"
+            name="Confirm SignUp Page"
+            element={<ConfirmSignUp />}
+          />
+
           <Route path="*" name="Home" element={<DefaultLayout />} />
-          
         </Routes>
       </Suspense>
     </HashRouter>

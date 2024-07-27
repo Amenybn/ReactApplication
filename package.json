@@ -29,6 +29,7 @@
     "@coreui/react-chartjs": "^3.0.0",
     "@coreui/utils": "^2.0.2",
     "@popperjs/core": "^2.11.8",
+    "amazon-cognito-identity-js": "^6.3.12",
     "aws-amplify": "^6.4.3",
     "aws-sdk": "^2.1662.0",
     "axios": "^1.7.2",

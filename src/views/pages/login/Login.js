@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
@@ -15,22 +15,39 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-import logo from 'src/assets/images/cineclickLOGO.png' // Adjust the path if needed
+import { signIn } from '../auth'
 
 const Login = () => {
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate() // Hook for navigation
 
-  const handleLogin = () => {
-    // Navigate to HomePage on login
-    navigate('../../../homePage'); // Adjust this path according to your routing setup
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+
+    try {
+      await signIn(username, password)
+      // Redirect to the app's main page or dashboard
+      setTimeout(() => {
+        navigate('/') // Corrected usage of navigate
+      }, 3000) // Removed unnecessary array brackets
+    } catch (err) {
+      setError(err.message)
+    }
+  }
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-column align-items-center">
       <CContainer>
         <CRow className="justify-content-center mb-3">
-          <CCol md={4} className="text-center" style={{ marginTop: '30px', marginBottom: '30px', marginLeft: '-800px' }}>
-            <img src={logo} alt="CineClick Logo" style={{ maxWidth: '100%' }} />
+          <CCol
+            md={4}
+            className="text-center"
+            style={{ marginTop: '30px', marginBottom: '30px' }} // Removed marginLeft
+          >
+            {/* Consider adding a logo or other content here */}
           </CCol>
         </CRow>
         <CRow className="justify-content-center">
@@ -38,14 +55,19 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm onSubmit={handleSubmit}>
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Username"
+                        autoComplete="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -55,14 +77,17 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                     </CInputGroup>
+                    {error && <p className="text-danger">{error}</p>} {/* Display error message */}
                     <CRow>
                       <CCol xs={6}>
                         <CButton
                           style={{ backgroundColor: '#5183a4', borderColor: '#5183a4' }}
                           className="px-4"
-                          onClick={handleLogin} // Add the click handler
+                          type="submit" // Added type for form submission
                         >
                           Login
                         </CButton>
@@ -89,7 +114,11 @@ const Login = () => {
                     </p>
                     <Link to="/register">
                       <CButton
-                        style={{ backgroundColor: '#417495', borderColor: '#417495', color: '#ffffff' }}
+                        style={{
+                          backgroundColor: '#417495',
+                          borderColor: '#417495',
+                          color: '#ffffff',
+                        }}
                         className="mt-3"
                         active
                         tabIndex={-1}
