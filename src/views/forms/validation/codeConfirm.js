@@ -22,7 +22,6 @@ console.log(id)
 
     try {
       const response = await fetch('https://e8z9o2hxm4.execute-api.us-east-1.amazonaws.com/dev/Reservation', {
-      
         method: 'POST',
        
         body: JSON.stringify({ id, code }),
@@ -40,7 +39,7 @@ console.log(id)
     return (
       <div>
         <h2>Confirmation successful!</h2>
-        <p>You can Download your Reservation!</p>
+        <p>You can Download your Reservation!!</p>
       </div>
     )
   }
