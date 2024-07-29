@@ -105,7 +105,9 @@ const ReservationTable = () => {
               <CTableDataCell>{reservation.filmName}</CTableDataCell>
               <CTableDataCell>{reservation.date}</CTableDataCell>
               <CTableDataCell>{reservation.nbOfplaceReserveEnfant}</CTableDataCell>
-              <CTableDataCell>{reservation.nbOfplaceReserveAdulte}</CTableDataCell>
+              <CTableDataCell>{reservation.
+numberOfPlaceAdulte
+}</CTableDataCell>
               <CTableDataCell>${reservation.totalPrice}</CTableDataCell>
             </CTableRow>
           ))}

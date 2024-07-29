@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom' 
 import axios from 'axios'
 import '../../../css/bootstrap.css'
 import '../../../css/font-awesome.min.css'
@@ -9,11 +10,14 @@ import logo from '../../../images/about-img.png'
 import { getCurrentUser } from '../auth'
 
 const DetailProduct = () => {
+  const navigate = useNavigate()
   const location = useLocation()
   const { film } = location.state || {}
   if (!film) {
     return <p>No film selected</p>
   }
+
+ 
 
   const [user, setUser] = useState({})
   const [phone, setPhone] = useState('')
@@ -45,7 +49,7 @@ const DetailProduct = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-
+    
     const jsonDataToSend = {
       filmId: film.id, // assuming 'film.id' is the correct identifier
       date: new Date(film.date).toISOString(),
@@ -70,6 +74,8 @@ const DetailProduct = () => {
         },
       )
       console.log(response)
+      event.preventDefault()
+      navigate('/confirmReservation', { state: {jsonDataToSend} })
       if (response.ok) {
         console.log('Server response:', await response.json())
         // Handle success (e.g., display a message, reset form, etc.)
@@ -273,7 +279,7 @@ const DetailProduct = () => {
                         />
                       </div>
                       <div className="col-xl-6">
-                        <button className="btn btn-primary border-0 w-100 py-3 px-4" type="submit">
+                        <button className="btn btn-primary border-0 w-100 py-3 px-4" type="submit" >
                           Book Now
                         </button>
                       </div>
