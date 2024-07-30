@@ -14,6 +14,7 @@ const ConfirmSignUp = React.lazy(() => import('./views/pages/register/ConfirmlSi
 const DetailProduct = React.lazy(() => import('./views/pages/login/detailProduct'))
 const HomePage = React.lazy(() => import('./views/pages/login/Home'))
 const ConfirmReservation = React.lazy(() => import('./views/forms/validation/codeConfirm'))
+const AffResUser = React.lazy(() => import('./views/pages/login/affResUser'))
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
   const storedTheme = useSelector((state) => state.theme)
@@ -48,6 +49,7 @@ const App = () => {
           <Route exact path="/details" name="Register Page" element={<DetailProduct />} />
           <Route exact path="/home" name="Register Page" element={<HomePage />} />
           <Route exact path="/confirmReservation" name="Confirm Reservation Page" element={<ConfirmReservation />} />
+          <Route exact path="/AffResUser" name="Affichage de reservation" element={<AffResUser />} />
           <Route
             exact
             path="/ConfirmSignUp"

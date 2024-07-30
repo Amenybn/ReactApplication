@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import '../../../css/bootstrap.css'
 import '../../../css/font-awesome.min.css'
@@ -16,8 +16,6 @@ const DetailProduct = () => {
   if (!film) {
     return <p>No film selected</p>
   }
-
- 
 
   const [user, setUser] = useState({})
   const [phone, setPhone] = useState('')
@@ -49,7 +47,7 @@ const DetailProduct = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    
+
     const jsonDataToSend = {
       filmId: film.id, // assuming 'film.id' is the correct identifier
       date: new Date(film.date).toISOString(),
@@ -62,23 +60,24 @@ const DetailProduct = () => {
       filmName: film.name,
     }
 
-    console.log('JSON data to send:', jsonDataToSend)
+    //  console.log('JSON data to send:', jsonDataToSend)
 
     try {
       const response = await fetch(
         'https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/reservation',
         {
-          node: 'cors',
           method: 'POST',
           body: JSON.stringify(jsonDataToSend),
         },
       )
-      console.log(response)
-      event.preventDefault()
-      navigate('/confirmReservation', { state: {jsonDataToSend} })
+
+      const res = await response.json()
+      const responseBody = JSON.parse(res.body)
+      console.log(responseBody.reservationId)
+      navigate('/confirmReservation', { state: { id: responseBody.reservationId } })
+
       if (response.ok) {
-        console.log('Server response:', await response.json())
-        // Handle success (e.g., display a message, reset form, etc.)
+        console.log(responseBody.reservationId)
       } else {
         console.error('Server error:', response.statusText)
         // Handle server error (e.g., display an error message)
@@ -279,7 +278,7 @@ const DetailProduct = () => {
                         />
                       </div>
                       <div className="col-xl-6">
-                        <button className="btn btn-primary border-0 w-100 py-3 px-4" type="submit" >
+                        <button className="btn btn-primary border-0 w-100 py-3 px-4" type="submit">
                           Book Now
                         </button>
                       </div>

@@ -15,6 +15,7 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilSearch } from '@coreui/icons';
+import { getCurrentUser } from '../auth'; // Import your function to get the current user's info
 
 const getStatusButtonColor = (status) => {
   switch (status) {
@@ -30,13 +31,22 @@ const getStatusButtonColor = (status) => {
 const ReservationTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [reservations, setReservations] = useState([]);
+  const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        setUserEmail(currentUser.email || '');
+      } catch (err) {
+        console.error('Error fetching user email:', err);
+      }
+    };
+
     const fetchReservations = async () => {
       try {
         const response = await axios.get('https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/reservation');
         const responseData = JSON.parse(response.data.body);
-        console.log(responseData);
         if (Array.isArray(responseData)) {
           setReservations(responseData);
         } else {
@@ -46,20 +56,14 @@ const ReservationTable = () => {
         console.error('Error fetching reservations:', error);
       }
     };
+
+    fetchUser();
     fetchReservations();
   }, []);
 
-  const filteredReservations = reservations.filter((reservation) => {
-    const username = reservation.username || '';
-    const email = reservation.email || '';
-    const filmName = reservation.filmName || '';
-
-    return (
-      username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      filmName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  const filteredReservations = reservations.filter((reservation) =>
+    reservation.email === userEmail
+  );
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -96,7 +100,17 @@ const ReservationTable = () => {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {filteredReservations.map((reservation) => (
+          {filteredReservations.filter((reservation) => {
+            const username = reservation.username || '';
+            const email = reservation.email || '';
+            const filmName = reservation.filmName || '';
+
+            return (
+              username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              filmName.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+          }).map((reservation) => (
             <CTableRow key={reservation.id}>
               <CTableDataCell>{reservation.username}</CTableDataCell>
               <CTableDataCell>{reservation.email}</CTableDataCell>
