@@ -17,7 +17,7 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { signIn } from '../auth'
 
-const Login = () => {
+const LoginAdmin = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -31,7 +31,7 @@ const Login = () => {
       await signIn(username, password)
       // Redirect to the app's main page or dashboard
       setTimeout(() => {
-        navigate('/AffResUser') // Corrected usage of navigate
+        navigate('/dashboard') // Corrected usage of navigate
       }, 3000) // Removed unnecessary array brackets
     } catch (err) {
       setError(err.message)
@@ -101,34 +101,6 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard
-                className="text-white py-5"
-                style={{ width: '44%', backgroundColor: '#e67e30' }}
-              >
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton
-                        style={{
-                          backgroundColor: '#417495',
-                          borderColor: '#417495',
-                          color: '#ffffff',
-                        }}
-                        className="mt-3"
-                        active
-                        tabIndex={-1}
-                      >
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
-                </CCardBody>
-              </CCard>
             </CCardGroup>
           </CCol>
         </CRow>
@@ -137,4 +109,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginAdmin

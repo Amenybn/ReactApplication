@@ -3,9 +3,11 @@ import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
+import LoginAdmin from './views/pages/login/loginAdmin'
 
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const NotFound = React.lazy(() => import('./layout/pageNotFound/pageNotFound'))
 
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
@@ -14,6 +16,7 @@ const ConfirmSignUp = React.lazy(() => import('./views/pages/register/ConfirmlSi
 const DetailProduct = React.lazy(() => import('./views/pages/login/detailProduct'))
 const HomePage = React.lazy(() => import('./views/pages/login/Home'))
 const ConfirmReservation = React.lazy(() => import('./views/forms/validation/codeConfirm'))
+const AffResUser = React.lazy(() => import('./views/pages/login/affResUser'))
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
   const storedTheme = useSelector((state) => state.theme)
@@ -47,7 +50,18 @@ const App = () => {
           <Route exact path="/confirmSignUp" name="Register Page" element={<ConfirmSignUp />} />
           <Route exact path="/details" name="Register Page" element={<DetailProduct />} />
           <Route exact path="/home" name="Register Page" element={<HomePage />} />
-          <Route exact path="/confirmReservation" name="Confirm Reservation Page" element={<ConfirmReservation />} />
+          <Route
+            exact
+            path="/confirmReservation"
+            name="Confirm Reservation Page"
+            element={<ConfirmReservation />}
+          />
+          <Route
+            exact
+            path="/AffResUser"
+            name="Affichage de reservation"
+            element={<AffResUser />}
+          />
           <Route
             exact
             path="/ConfirmSignUp"
@@ -55,7 +69,9 @@ const App = () => {
             element={<ConfirmSignUp />}
           />
 
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          <Route path="*" name="PAge Not Found" element={<NotFound />} />
+          <Route path="admin" name="Admin" element={<LoginAdmin />} />
+          <Route path="dashboard" name="Admin" element={<DefaultLayout />} />
         </Routes>
       </Suspense>
     </HashRouter>

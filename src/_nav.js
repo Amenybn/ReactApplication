@@ -27,7 +27,7 @@ const _nav = [
       text: 'NEW',
     },
   },
- 
+
   {
     component: CNavGroup,
     name: 'Reservations',
@@ -39,10 +39,9 @@ const _nav = [
         name: 'List of Reservations',
         to: '/base/accordion',
       },
-      
     ],
   },
- 
+
   {
     component: CNavGroup,
     name: 'Movies',
@@ -53,7 +52,7 @@ const _nav = [
         name: 'List of movies',
         to: '/forms/form-control',
       },
-    
+
       {
         component: CNavItem,
         name: 'Add a Movie',
@@ -61,13 +60,12 @@ const _nav = [
       },
     ],
   },
- 
+
   {
     component: CNavGroup,
     name: 'Users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
     items: [
-      
       {
         component: CNavItem,
         name: 'List of users',
@@ -80,8 +78,6 @@ const _nav = [
       },
     ],
   },
- 
- 
 ]
 
 export default _nav

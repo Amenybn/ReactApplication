@@ -1,17 +1,17 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
+  "name": "amany",
   "version": "5.1.0",
-  "description": "CoreUI Free React Admin Template",
+  "description": "amani",
   "homepage": ".",
   "bugs": {
-    "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
+    "url": ""
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
+    "url": ""
   },
   "license": "MIT",
-  "author": "The CoreUI Team (https://github.com/orgs/coreui/people)",
+  "author": "",
   "scripts": {
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",

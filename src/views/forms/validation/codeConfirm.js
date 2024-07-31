@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function CodeConfirm() {
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const navigate = useNavigate()
 
   const location = useLocation()
   const { id } = location.state || {}
@@ -46,6 +44,7 @@ export default function CodeConfirm() {
   return (
     <div>
       <h2>Confirm Reservation</h2>
+      <p>Reservation ID: {reservationId}</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -56,6 +55,12 @@ export default function CodeConfirm() {
         <button type="submit">Confirm</button>
       </form>
       {error && <p>{error}</p>}
+      {success && (
+        <div>
+          <h2>Confirmation successful!</h2>
+          <p>You can download your reservation!!</p>
+        </div>
+      )}
     </div>
   )
 }
