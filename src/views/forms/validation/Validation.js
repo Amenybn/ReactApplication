@@ -85,12 +85,11 @@ const MyForm = () => {
           const response = await fetch(
             'https://e8z9o2hxm4.execute-api.us-east-1.amazonaws.com/dev/Film',
             {
-              node:'cors',
+              node: 'cors',
               method: 'POST',
               body: JSON.stringify(jsonDataToSend),
             },
           )
-
           if (response) {
             console.log('Server response:', await response.json())
             // Handle success (e.g., display a message, reset form, etc.)
