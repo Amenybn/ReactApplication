@@ -1,44 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios';
 import '../../../css/bootstrap.css';
 import '../../../css/font-awesome.min.css';
 import '../../../css/style.css';
 import '../../../css/responsive.css';
 import logo from '../../../images/about-img.png';
-import {
-  CCardBody,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
-  CButton,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-} from '@coreui/react';
+import { CInputGroup, CInputGroupText, CFormInput } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilSearch } from '@coreui/icons';
-import { getCurrentUser } from '../auth'; // Import your function to get the current user's info
+import { getCurrentUser } from '../auth';
 
-const getStatusButtonColor = (status) => {
-  switch (status) {
-    case 'Confirmed':
-      return 'success';
-    case 'Pending':
-      return 'warning';
-    default:
-      return 'secondary';
-  }
-};
-
-const ReservationTable = () => {
+const ReservationList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [reservations, setReservations] = useState([]);
   const [userEmail, setUserEmail] = useState('');
-  const mapRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const productsPerPage = 3
+  const [films, setFilms] = useState([])
+  const totalProducts = films.length
+  const handleNext = () => {
+    if (currentIndex + productsPerPage < totalProducts) {
+      setCurrentIndex(currentIndex + productsPerPage)
+    }
+  }
 
+  const handlePrev = () => {
+    if (currentIndex - productsPerPage >= 0) {
+      setCurrentIndex(currentIndex - productsPerPage)
+    }
+  }
+
+  const visibleFilms = films.slice(currentIndex, currentIndex + productsPerPage)
+
+  const mapRef = useRef(null)
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -67,12 +61,36 @@ const ReservationTable = () => {
     fetchReservations();
   }, []);
 
-  const filteredReservations = reservations.filter((reservation) =>
-    reservation.email === userEmail
+  const filteredReservations = reservations.filter(
+    (reservation) =>
+      reservation.email === userEmail &&
+      reservation.status === 'verified' &&
+      (reservation.filmName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        reservation.date.includes(searchTerm))
   );
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleUpload = (reservationId) => {
+    // Add your upload logic here
+    console.log('Upload button clicked for reservation ID:', reservationId);
+  };
+
+  const handleDelete = (reservationId) => {
+    // Add your delete logic here
+    console.log('Delete button clicked for reservation ID:', reservationId);
+  };
+
+  const handleReadMoreClick = (e) => {
+    e.preventDefault();
+    console.log('Read More clicked');
+  };
+
+  const handleLocationClick = (e) => {
+    e.preventDefault();
+    console.log('Contact Us clicked');
   };
 
   return (
@@ -85,15 +103,15 @@ const ReservationTable = () => {
               <img src={logo} alt="CineClick Logo" style={{ height: '60px' }} />
             </a>
             <div className="contact_nav">
-              <a href="#mapSection" onClick={(e) => { e.preventDefault(); mapRef.current.scrollIntoView({ behavior: 'smooth' }) }}>
+              <a href="#">
                 <i className="fa fa-map-marker" aria-hidden="true"></i>
                 <span>Location</span>
               </a>
-              <a href="">
+              <a href="#">
                 <i className="fa fa-phone" aria-hidden="true"></i>
                 <span>Call : +216 75888000</span>
               </a>
-              <a href="">
+              <a href="#">
                 <i className="fa fa-envelope" aria-hidden="true"></i>
                 <span>cineclick@gmail.com</span>
               </a>
@@ -158,6 +176,7 @@ const ReservationTable = () => {
                       Films
                     </a>
                   </li>
+                 
                   <li className="nav-item">
                     <a className="nav-link" href="#">
                       <i className="fa fa-user" aria-hidden="true"></i>
@@ -178,6 +197,10 @@ const ReservationTable = () => {
       {/* End Header Section */}
 
       {/* Slider Section */}
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <section className="slider_section">
         <div id="customCarousel1" className="carousel slide" data-ride="carousel">
           <div className="carousel-inner">
@@ -193,86 +216,92 @@ const ReservationTable = () => {
                     just a click away!
                   </h7>
                   <div className="btn-box">
-                    <a href="#" className="btn1">
+                    <a href="#" className="btn1" onClick={handleReadMoreClick}>
                       Read More
                     </a>
-                    <a href="#mapSection" className="btn2">
+                    <a href="#" className="btn2" onClick={handleLocationClick}>
                       Contact Us
                     </a>
                   </div>
                 </div>
               </div>
             </div>
+            {/* Ajoutez plus d'éléments ici si nécessaire */}
           </div>
         </div>
       </section>
       {/* End Slider Section */}
-
-      <CCardBody>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="mb-4" style={{ color: '#e67e30' }}>LIST OF FILM RESERVATIONS</h3>
-          <CInputGroup style={{ maxWidth: '300px' }}>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      
+      <div className="heading_container heading_center">
+            <h2>Your Reservations</h2>
+          </div>
+          <CInputGroup style={{ maxWidth: '300px', margin: '0 auto 20px auto' }}>
             <CInputGroupText>
               <CIcon icon={cilSearch} />
             </CInputGroupText>
             <CFormInput
               type="text"
-              placeholder="Search films..."
+              placeholder="Search reservations..."
               value={searchTerm}
               onChange={handleSearchChange}
             />
           </CInputGroup>
+          <br></br>
+   
+      <section className="portfolio_section">
+        <div className="container">
+         
+          <div className="portfolio_list">
+            {filteredReservations.map((reservation) => (
+              <div className="portfolio_item" key={reservation.id}>
+                <div className="">
+                  <div className="box">
+                    <div className="">
+                      <img src={reservation.imageUrl || 'images/p1.jpg'} alt={reservation.filmName} />
+                      
+                    </div>
+                  </div>
+                  <div className="portfolio_info">
+                    <h2 className="titlee">{reservation.filmName}</h2>
+                    <span className="date">
+                      <img src="public/images/calendar.png" alt="Calendar" className="calendar-icon" />
+                      {new Date(reservation.date).toLocaleDateString('en-GB')}
+                    </span>
+                    <p>NB Child Seats: {reservation.nbOfplaceReserveEnfant}</p>
+                    <p>NB Adult Seats: {reservation.numberOfPlaceAdulte}</p>
+                    <p>Total Price: ${reservation.totalPrice}</p>
+                    <div className="action_buttons">
+                      <button className="btn btn-primary" onClick={() => handleUpload(reservation.id)}>
+                        Upload
+                      </button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(reservation.id)}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <CTable bordered hover>
-        <CTableHead>
-          <CTableRow>
-            <CTableHeaderCell>User Name</CTableHeaderCell>
-            <CTableHeaderCell>User Email</CTableHeaderCell>
-            <CTableHeaderCell>User Number</CTableHeaderCell>
-            <CTableHeaderCell>Status</CTableHeaderCell>
-            <CTableHeaderCell>Film Name</CTableHeaderCell>
-            <CTableHeaderCell>Film Date</CTableHeaderCell>
-            <CTableHeaderCell>NB Child Seats</CTableHeaderCell>
-            <CTableHeaderCell>NB Adult Seats</CTableHeaderCell>
-            <CTableHeaderCell>Total Price</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {filteredReservations.filter((reservation) => {
-            const username = reservation.username || '';
-            const email = reservation.email || '';
-            const filmName = reservation.filmName || '';
-
-            return (
-              username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              filmName.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-          }).map((reservation) => (
-            <CTableRow key={reservation.id}>
-              <CTableDataCell>{reservation.username}</CTableDataCell>
-              <CTableDataCell>{reservation.email}</CTableDataCell>
-              <CTableDataCell>{reservation.phoneNumber}</CTableDataCell>
-              <CTableDataCell>
-                <CButton color={getStatusButtonColor(reservation.status)} className="float-end">
-                  {reservation.status}
-                </CButton>
-              </CTableDataCell>
-              <CTableDataCell>{reservation.filmName}</CTableDataCell>
-              <CTableDataCell>{reservation.date}</CTableDataCell>
-              <CTableDataCell>{reservation.nbOfplaceReserveEnfant}</CTableDataCell>
-              <CTableDataCell>{reservation.numberOfPlaceAdulte}</CTableDataCell>
-              <CTableDataCell>${reservation.totalPrice}</CTableDataCell>
-            </CTableRow>
-          ))}
-        </CTableBody>
-      </CTable>
-      </CCardBody>
-
-    
+      </section>
       <br></br>
-<br></br>
-<section class="info_section ">
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      
+      <section class="info_section ">
     <div class="info_container layout_padding2">
       <div class="container">
         <div class="info_logo">
@@ -390,9 +419,7 @@ const ReservationTable = () => {
       </div>
     </div>
   </section>
-
-      {/* Map Section */}
-      <section className="map_section" ref={mapRef}>
+  <section className="map_section" ref={mapRef}>
         <div className="container-fluid">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.2007865170126!2d10.096801297473574!3d33.88448236908293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12556f9cea7b178d%3A0xbb3080c20e2ebc03!2sCin%C3%A9ma%20Pour%20Tous!5e0!3m2!1sen!2sbd!4v1721673024226!5m2!1sen!2sbd"
@@ -409,4 +436,4 @@ const ReservationTable = () => {
   );
 };
 
-export default ReservationTable;
+export default ReservationList;
