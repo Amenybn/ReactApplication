@@ -60,7 +60,7 @@ const Register = () => {
           <CCol
             md={4}
             className="text-center"
-            style={{ marginTop: '30px', marginBottom: '30px', marginLeft: '-800px' }}
+            style={{ marginTop: '30px' }}
           >
             <img src={logo} alt="CineClick Logo" style={{ maxWidth: '100%' }} />
           </CCol>

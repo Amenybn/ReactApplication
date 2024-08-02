@@ -15,13 +15,14 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import logo from 'src/assets/images/cineclickLOGO.png' // Import your logo image
 import { signIn } from '../auth'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const navigate = useNavigate() // Hook for navigation
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -29,10 +30,9 @@ const Login = () => {
 
     try {
       await signIn(username, password)
-      // Redirect to the app's main page or dashboard
       setTimeout(() => {
-        navigate('/AffResUser') // Corrected usage of navigate
-      }, 3000) // Removed unnecessary array brackets
+        navigate('/home')
+      }, 3000)
     } catch (err) {
       setError(err.message)
     }
@@ -45,9 +45,9 @@ const Login = () => {
           <CCol
             md={4}
             className="text-center"
-            style={{ marginTop: '30px', marginBottom: '30px' }} // Removed marginLeft
+            style={{ marginTop: '30px', marginBottom: '30px' }}
           >
-            {/* Consider adding a logo or other content here */}
+            <img src={logo} alt="CineClick Logo" style={{ maxWidth: '100%' }} /> {/* Logo Image */}
           </CCol>
         </CRow>
         <CRow className="justify-content-center">
@@ -81,13 +81,13 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </CInputGroup>
-                    {error && <p className="text-danger">{error}</p>} {/* Display error message */}
+                    {error && <p className="text-danger">{error}</p>}
                     <CRow>
                       <CCol xs={6}>
                         <CButton
                           style={{ backgroundColor: '#5183a4', borderColor: '#5183a4' }}
                           className="px-4"
-                          type="submit" // Added type for form submission
+                          type="submit"
                         >
                           Login
                         </CButton>
@@ -108,10 +108,8 @@ const Login = () => {
                 <CCardBody className="text-center">
                   <div>
                     <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
+                    <br></br>
+                    <p>Welcome to CineClick, your gateway to an amazing cinematic experience!</p>
                     <Link to="/register">
                       <CButton
                         style={{

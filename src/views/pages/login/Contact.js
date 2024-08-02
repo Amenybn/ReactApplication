@@ -1,79 +1,74 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import '../../../css/bootstrap.css';
-import '../../../css/font-awesome.min.css';
-import '../../../css/style.css';
-import '../../../css/responsive.css';
-import logo from '../../../images/about-img.png';
-import {
-  CCardBody,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
-  CButton,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-} from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-import { cilSearch } from '@coreui/icons';
-import { getCurrentUser } from '../auth'; // Import your function to get the current user's info
+import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import '../../../css/bootstrap.css'
+import '../../../css/font-awesome.min.css'
+import '../../../css/style.css'
+import '../../../css/responsive.css'
+import logo from '../../../images/about-img.png'
 
-const getStatusButtonColor = (status) => {
-  switch (status) {
-    case 'Confirmed':
-      return 'success';
-    case 'Pending':
-      return 'warning';
-    default:
-      return 'secondary';
+const Contact = () => {
+  const navigate = useNavigate()
+  const [films, setFilms] = useState([])
+  const [showMore, setShowMore] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const productsPerPage = 3
+  const totalProducts = films.length
+
+  const aboutRef = useRef(null)
+  const mapRef = useRef(null)
+
+  const handleNext = () => {
+    if (currentIndex + productsPerPage < totalProducts) {
+      setCurrentIndex(currentIndex + productsPerPage)
+    }
   }
-};
 
-const ReservationTable = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [reservations, setReservations] = useState([]);
-  const [userEmail, setUserEmail] = useState('');
-  const mapRef = useRef(null);
+  const handlePrev = () => {
+    if (currentIndex - productsPerPage >= 0) {
+      setCurrentIndex(currentIndex - productsPerPage)
+    }
+  }
+
+  const visibleFilms = films.slice(currentIndex, currentIndex + productsPerPage)
+
+  
+
+  const handleReadMoreClick = (event) => {
+    event.preventDefault()
+    setShowMore(!showMore)
+    if (aboutRef.current) {
+      aboutRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const handleLocationClick = (event) => {
+    event.preventDefault()
+    if (mapRef.current) {
+      mapRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchFilms = async () => {
       try {
-        const currentUser = await getCurrentUser();
-        setUserEmail(currentUser.email || '');
-      } catch (err) {
-        console.error('Error fetching user email:', err);
-      }
-    };
+        const response = await axios.get(
+          'https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/products',
+        )
+        const responseData = JSON.parse(response.data.body)
 
-    const fetchReservations = async () => {
-      try {
-        const response = await axios.get('https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/reservation');
-        const responseData = JSON.parse(response.data.body);
         if (Array.isArray(responseData)) {
-          setReservations(responseData);
+          setFilms(responseData)
         } else {
-          console.error('Error: Response data is not an array', responseData);
+          console.error('Error: Response data is not an array', responseData)
         }
       } catch (error) {
-        console.error('Error fetching reservations:', error);
+        console.error('Error fetching films:', error)
       }
-    };
+    }
 
-    fetchUser();
-    fetchReservations();
-  }, []);
-
-  const filteredReservations = reservations.filter((reservation) =>
-    reservation.email === userEmail
-  );
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+    fetchFilms()
+  }, [])
 
   return (
     <div className="hero_area">
@@ -85,7 +80,7 @@ const ReservationTable = () => {
               <img src={logo} alt="CineClick Logo" style={{ height: '60px' }} />
             </a>
             <div className="contact_nav">
-              <a href="#mapSection" onClick={(e) => { e.preventDefault(); mapRef.current.scrollIntoView({ behavior: 'smooth' }) }}>
+              <a href="#" onClick={handleLocationClick}>
                 <i className="fa fa-map-marker" aria-hidden="true"></i>
                 <span>Location</span>
               </a>
@@ -99,16 +94,16 @@ const ReservationTable = () => {
               </a>
             </div>
             <div className="social_box">
-              <a href="#">
+              <a>
                 <i className="fa fa-facebook" aria-hidden="true"></i>
               </a>
-              <a href="#">
+              <a>
                 <i className="fa fa-twitter" aria-hidden="true"></i>
               </a>
-              <a href="#">
+              <a>
                 <i className="fa fa-linkedin" aria-hidden="true"></i>
               </a>
-              <a href="#">
+              <a>
                 <i className="fa fa-instagram" aria-hidden="true"></i>
               </a>
             </div>
@@ -139,7 +134,7 @@ const ReservationTable = () => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="about.html">
+                    <a className="nav-link" href="about.html" onClick={(e) => { e.preventDefault(); aboutRef.current.scrollIntoView({ behavior: 'smooth' }) }}>
                       About
                     </a>
                   </li>
@@ -158,6 +153,7 @@ const ReservationTable = () => {
                       Films
                     </a>
                   </li>
+                 
                   <li className="nav-item">
                     <a className="nav-link" href="#">
                       <i className="fa fa-user" aria-hidden="true"></i>
@@ -178,6 +174,10 @@ const ReservationTable = () => {
       {/* End Header Section */}
 
       {/* Slider Section */}
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <section className="slider_section">
         <div id="customCarousel1" className="carousel slide" data-ride="carousel">
           <div className="carousel-inner">
@@ -193,84 +193,80 @@ const ReservationTable = () => {
                     just a click away!
                   </h7>
                   <div className="btn-box">
-                    <a href="#" className="btn1">
+                    <a href="#" className="btn1" onClick={handleReadMoreClick}>
                       Read More
                     </a>
-                    <a href="#mapSection" className="btn2">
+                    <a href="#" className="btn2" onClick={handleLocationClick}>
                       Contact Us
                     </a>
                   </div>
                 </div>
               </div>
             </div>
+            {/* Ajoutez plus d'éléments ici si nécessaire */}
           </div>
+         
         </div>
       </section>
       {/* End Slider Section */}
+<br></br>
+<br></br>
+<br></br>
+<br></br>
 
-      <CCardBody>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="mb-4" style={{ color: '#e67e30' }}>LIST OF FILM RESERVATIONS</h3>
-          <CInputGroup style={{ maxWidth: '300px' }}>
-            <CInputGroupText>
-              <CIcon icon={cilSearch} />
-            </CInputGroupText>
-            <CFormInput
-              type="text"
-              placeholder="Search films..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </CInputGroup>
+      <section className="contact_section layout_padding">
+        <div className="container">
+          <div className="heading_container heading_center">
+            <h2>Get In <span>Touch</span></h2>
+          </div>
+          <div className="row">
+            <div className="col-md-6 px-0">
+              <div className="form_container">
+                <form>
+                  
+                  <div className="form-row">
+                    <div className="form-group col-lg-6">
+                      <input type="text" className="form-control" placeholder="Phone Number" />
+                    </div>
+                   
+                  </div>
+                
+                  <div className="form-row">
+                    <div className="form-group col">
+                      <input type="text" className="message-box form-control" placeholder="Message" />
+                    </div>
+                  </div>
+                  <div className="btn_box">
+                    <button type="submit">
+                      SEND
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div className="col-md-6 px-0">
+              <div className="map_container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.2007865170126!2d10.096801297473574!3d33.88448236908293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12556f9cea7b178d%3A0xbb3080c20e2ebc03!2sCin%C3%A9ma%20Pour%20Tous!5e0!3m2!1sen!2sbd!4v1721673024226!5m2!1sen!2sbd"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </div>
-        <CTable bordered hover>
-        <CTableHead>
-          <CTableRow>
-            <CTableHeaderCell>User Name</CTableHeaderCell>
-            <CTableHeaderCell>User Email</CTableHeaderCell>
-            <CTableHeaderCell>User Number</CTableHeaderCell>
-            <CTableHeaderCell>Status</CTableHeaderCell>
-            <CTableHeaderCell>Film Name</CTableHeaderCell>
-            <CTableHeaderCell>Film Date</CTableHeaderCell>
-            <CTableHeaderCell>NB Child Seats</CTableHeaderCell>
-            <CTableHeaderCell>NB Adult Seats</CTableHeaderCell>
-            <CTableHeaderCell>Total Price</CTableHeaderCell>
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {filteredReservations.filter((reservation) => {
-            const username = reservation.username || '';
-            const email = reservation.email || '';
-            const filmName = reservation.filmName || '';
+      </section>
 
-            return (
-              username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              filmName.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-          }).map((reservation) => (
-            <CTableRow key={reservation.id}>
-              <CTableDataCell>{reservation.username}</CTableDataCell>
-              <CTableDataCell>{reservation.email}</CTableDataCell>
-              <CTableDataCell>{reservation.phoneNumber}</CTableDataCell>
-              <CTableDataCell>
-                <CButton color={getStatusButtonColor(reservation.status)} className="float-end">
-                  {reservation.status}
-                </CButton>
-              </CTableDataCell>
-              <CTableDataCell>{reservation.filmName}</CTableDataCell>
-              <CTableDataCell>{reservation.date}</CTableDataCell>
-              <CTableDataCell>{reservation.nbOfplaceReserveEnfant}</CTableDataCell>
-              <CTableDataCell>{reservation.numberOfPlaceAdulte}</CTableDataCell>
-              <CTableDataCell>${reservation.totalPrice}</CTableDataCell>
-            </CTableRow>
-          ))}
-        </CTableBody>
-      </CTable>
-      </CCardBody>
-
-    
-      <br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
 <br></br>
 <section class="info_section ">
     <div class="info_container layout_padding2">
@@ -405,8 +401,9 @@ const ReservationTable = () => {
           ></iframe>
         </div>
       </section>
+      {/* End Map Section */}
     </div>
-  );
-};
+  )
+}
 
-export default ReservationTable;
+export default Contact

@@ -27,8 +27,8 @@ body {
 
 .portfolio_item {
   flex: 0 0 auto; /* Permet à chaque élément de ne pas se réduire */
-  max-width: 300px; /* Largeur maximale de chaque élément */
-  border: 1px solid #ddd; /* Bordure pour délimiter les éléments */
+  max-width: 340px; /* Largeur maximale de chaque élément */
+  /* Bordure pour délimiter les éléments */
   border-radius: 8px; /* Coins arrondis */
   box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Ombre légère */
   overflow: hidden; /* Cache les débordements */
@@ -67,6 +67,34 @@ body {
 .product-status .status-text {
   color: #28a745; /* Couleur pour le texte de statut */
   font-weight: bold;
+}
+
+
+
+
+.portfolio_section .pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.portfolio_section .pagination .pagination-btn {
+  background-color: #e67e30; /* Couleur orange */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.portfolio_section .pagination .pagination-btn:hover {
+  background-color: #d35400; /* Couleur orange plus foncée */
+}
+
+.portfolio_section .pagination .pagination-btn:active {
+  transform: scale(0.95); /* Animation de clic */
 }
 
 
