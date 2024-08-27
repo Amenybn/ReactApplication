@@ -278,14 +278,22 @@ const ReservationList = () => {
                     <p>NB Child Seats: {reservation.nbOfplaceReserveEnfant}</p>
                     <p>NB Adult Seats: {reservation.numberOfPlaceAdulte}</p>
                     <p>Total Price: ${reservation.totalPrice}</p>
-                    <div className="action_buttons">
-                      <button className="btn btn-primary" onClick={() => handleUpload(reservation.id)}>
-                        Upload
-                      </button>
-                      <button className="btn btn-danger" onClick={() => handleDelete(reservation.id)}>
-                        Delete
-                      </button>
-                    </div>
+                    <div className="btn-group">
+                        <button
+                          className="btn btn-orange"
+                          style={{ margin: '0 5px', backgroundColor: '#e67e30', color: 'white' }}
+                          onClick={() => handleDelete(reservation.id)}
+                        >
+                          <i className="fa fa-trash"></i> Delete
+                        </button>
+                        <button
+                          className="btn btn-white"
+                          style={{ margin: '0 5px', backgroundColor: 'white', color: '#e67e30' }}
+                          onClick={() => handleUpload(reservation.id)}
+                        >
+                          <i className="fa fa-upload"></i> Upload
+                        </button>
+                      </div>
                   </div>
                 </div>
               </div>

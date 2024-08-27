@@ -13,6 +13,7 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const ConfirmSignUp = React.lazy(() => import('./views/pages/register/ConfirmlSignUp'))
 const DetailProduct = React.lazy(() => import('./views/pages/login/detailProduct'))
 const HomePage = React.lazy(() => import('./views/pages/login/Home'))
+const Profile = React.lazy(() => import('./views/pages/login/profile'))
 const Contact = React.lazy(() => import('./views/pages/login/Contact'))
 const ConfirmReservation = React.lazy(() => import('./views/forms/validation/codeConfirm'))
 const AffResUser = React.lazy(() => import('./views/pages/login/affResUser'))
@@ -49,6 +50,7 @@ const App = () => {
           <Route exact path="/confirmSignUp" name="Register Page" element={<ConfirmSignUp />} />
           <Route exact path="/details" name="Register Page" element={<DetailProduct />} />
           <Route exact path="/home" name="Home Page" element={<HomePage />} />
+          <Route exact path="/profile" name="Profile" element={<Profile />} />
           <Route exact path="/contact" name="Contact Page" element={<Contact />} />
           <Route exact path="/confirmReservation" name="Confirm Reservation Page" element={<ConfirmReservation />} />
           <Route exact path="/AffResUser" name="Affichage de reservation" element={<AffResUser />} />
