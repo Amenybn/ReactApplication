@@ -44,7 +44,7 @@ export default function CodeConfirm() {
   return (
     <div>
       <h2>Confirm Reservation</h2>
-      <p>Reservation ID: {reservationId}</p>
+      <p>Reservation ID: {id}</p>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

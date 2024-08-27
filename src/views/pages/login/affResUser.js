@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
 import '../../../css/bootstrap.css';
 import '../../../css/font-awesome.min.css';
 import '../../../css/style.css';
@@ -27,6 +28,24 @@ const ReservationList = () => {
   const handlePrev = () => {
     if (currentIndex - productsPerPage >= 0) {
       setCurrentIndex(currentIndex - productsPerPage)
+    }
+  }
+  const handleUpload = (reservationId) => {
+    const reservation = reservations.find(res => res.id === reservationId);
+    if (reservation) {
+      const doc = new jsPDF();
+      
+      doc.text('Reservation Details', 10, 10);
+      doc.text(`Film Name: ${reservation.filmName}`, 10, 20);
+      doc.text(`Date: ${new Date(reservation.date).toLocaleDateString('en-GB')}`, 10, 30);
+      doc.text(`Child Seats: ${reservation.nbOfplaceReserveEnfant}`, 10, 40);
+      doc.text(`Adult Seats: ${reservation.numberOfPlaceAdulte}`, 10, 50);
+      doc.text(`Total Price: $${reservation.totalPrice}`, 10, 60);
+  
+      // Save the PDF
+      doc.save(`reservation_${reservationId}.pdf`);
+    } else {
+      console.error('Reservation not found');
     }
   }
 
@@ -73,11 +92,7 @@ const ReservationList = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleUpload = (reservationId) => {
-    // Add your upload logic here
-    console.log('Upload button clicked for reservation ID:', reservationId);
-  };
-
+ 
   const handleDelete = (reservationId) => {
     // Add your delete logic here
     console.log('Delete button clicked for reservation ID:', reservationId);
@@ -278,22 +293,14 @@ const ReservationList = () => {
                     <p>NB Child Seats: {reservation.nbOfplaceReserveEnfant}</p>
                     <p>NB Adult Seats: {reservation.numberOfPlaceAdulte}</p>
                     <p>Total Price: ${reservation.totalPrice}</p>
-                    <div className="btn-group">
-                        <button
-                          className="btn btn-orange"
-                          style={{ margin: '0 5px', backgroundColor: '#e67e30', color: 'white' }}
-                          onClick={() => handleDelete(reservation.id)}
-                        >
-                          <i className="fa fa-trash"></i> Delete
-                        </button>
-                        <button
-                          className="btn btn-white"
-                          style={{ margin: '0 5px', backgroundColor: 'white', color: '#e67e30' }}
-                          onClick={() => handleUpload(reservation.id)}
-                        >
-                          <i className="fa fa-upload"></i> Upload
-                        </button>
-                      </div>
+                    <div className="action_buttons">
+                      <button className="btn btn-primary" onClick={() => handleUpload(reservation.id)}>
+                        Upload
+                      </button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(reservation.id)}>
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

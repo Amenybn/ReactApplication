@@ -70,8 +70,10 @@ const DetailProduct = () => {
           body: JSON.stringify(jsonDataToSend),
         },
       )
+      console.log(response);
 
       const res = await response.json()
+      console.log(res);
       const responseBody = JSON.parse(res.body)
       console.log(responseBody.reservationId)
       navigate('/confirmReservation', { state: { id: responseBody.reservationId } })
