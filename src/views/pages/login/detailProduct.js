@@ -46,10 +46,10 @@ const DetailProduct = () => {
   }, [adultTickets, childTickets, film.adultPrice, film.childPrice])
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-
+    event.preventDefault();
+  
     const jsonDataToSend = {
-      filmId: film.id, // assuming 'film.id' is the correct identifier
+      filmId: film.id, 
       date: new Date(film.date).toISOString(),
       nbOfplaceReserveEnfant: parseInt(childTickets, 10),
       numberOfPlaceAdulte: parseInt(adultTickets, 10),
@@ -58,10 +58,8 @@ const DetailProduct = () => {
       email: email,
       phoneNumber: phone,
       filmName: film.name,
-    }
-
-    //  console.log('JSON data to send:', jsonDataToSend)
-
+    };
+  
     try {
       const response = await fetch(
         'https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/reservation',
@@ -69,26 +67,29 @@ const DetailProduct = () => {
           method: 'POST',
           body: JSON.stringify(jsonDataToSend),
         },
-      )
-      console.log(response);
-
-      const res = await response.json()
-      console.log(res);
-      const responseBody = JSON.parse(res.body)
-      console.log(responseBody.reservationId)
-      navigate('/confirmReservation', { state: { id: responseBody.reservationId } })
-
+      );
+  
       if (response.ok) {
-        console.log(responseBody.reservationId)
+        const res = await response.json();
+        const responseBody = JSON.parse(res.body);
+  
+        if (responseBody && responseBody.reservationId) {
+          console.log('Reservation successful:', responseBody.reservationId);
+          navigate('/confirmReservation', { state: { id: responseBody.reservationId } });
+        } else {
+          console.error('Reservation ID missing in the response');
+          // Handle the error, maybe show a message to the user
+        }
       } else {
-        console.error('Server error:', response.statusText)
+        console.error('Server error:', response.statusText);
         // Handle server error (e.g., display an error message)
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error:', error);
       // Handle network error (e.g., display an error message)
     }
-  }
+  };
+  
   //tanh taro vxzf lyxr
   return (
     <div className="sub_page">
@@ -205,7 +206,7 @@ const DetailProduct = () => {
                     </h2>
                   </div>
                   <p>Date: {new Date(film.date).toLocaleDateString('en-GB')}</p>
-                  <p>Status: {film.status}</p>
+                  <p>{film.description}</p>
                 </div>
               </div>
               <div className="col-md-6">
@@ -226,7 +227,7 @@ const DetailProduct = () => {
                   <p className="text-dark">
                     <span className="date">
                       <img
-                        src="public/images/calendar.png"
+                        src="/images/calendar.png"
                         alt="Calendar"
                         className="calendar-icon"
                       />
@@ -234,7 +235,7 @@ const DetailProduct = () => {
                     </span>
                   </p>
                   <p className="text-dark">
-                    <i className="fa fa-check text-primary me-2"></i> {film.seatsRemaining} seats
+                    <i className="fa fa-check text-primary me-2"></i>  seats
                     remaining
                   </p>
                   <p className="mb-4">
@@ -290,6 +291,56 @@ const DetailProduct = () => {
                       <p>Total Price: {totalPrice.toFixed(2)} USD</p>
                     </div>
                   </form>
+                </div>
+                <div className="col-xl-7">
+                  <div>
+                    <div className="row g-4">
+                      <div className="col-lg-4">
+                        <div className="bg-white p-3">
+                          <div className="text-center mx-auto pb-5" style={{ maxWidth: '800px' }}>
+                            <p></p>
+                            <h4>Adult Price:</h4>
+                            <p></p>
+                            <h5 className="text-uppercase text-primary">{film.adultPrice} DT</h5>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-4">
+                        <div className="bg-white p-3">
+                          <div className="text-center mx-auto pb-5" style={{ maxWidth: '800px' }}>
+                            <p></p>
+                            <h4>Child Price:</h4>
+                            <p></p>
+                            <h5 className="text-uppercase text-primary">{film.childPrice} DT</h5>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-4">
+                        <div className="bg-white p-3">
+                          <div className="text-center mx-auto pb-5" style={{ maxWidth: '800px' }}>
+                            <p></p>
+                            <h4>Film Room:</h4>
+                            <p></p>
+                            <h5 className="text-uppercase text-primary">{film.room} </h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-12" style={{ marginTop: '10px' }}>
+                      <iframe
+                        src={
+                          film.mapUrl ||
+                          'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.2007865170126!2d10.096801297473574!3d33.88448236908293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12556f9cea7b178d%3A0xbb3080c20e2ebc03!2sCin%C3%A9ma%20Pour%20Tous!5e0!3m2!1sen!2sbd!4v1721673024226!5m2!1sen!2sbd'
+                        }
+                        width="720"
+                        height="450"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                      ></iframe>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
