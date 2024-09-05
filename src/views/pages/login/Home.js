@@ -299,7 +299,7 @@ const HomePage = () => {
             <div className="item decorative">
               <div className="box">
                 <div className="img-box">
-                  <img src={film.imageUrl || 'images/p1.jpg'} alt={film.name} />
+                  <img src={film.image || 'images/p1.jpg'} alt={film.name} />
                   <div className="btn_overlay">
                     <a href="/" className="btn" onClick={(e) => handleSeeMore(e, film)}>
                       See More
