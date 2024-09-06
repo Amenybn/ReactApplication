@@ -298,14 +298,19 @@ const HomePage = () => {
           <div className="owl-carousel portfolio_carousel">
             <div className="item decorative">
               <div className="box">
-                <div className="img-box">
-                  <img src={film.image || 'images/p1.jpg'} alt={film.name} />
-                  <div className="btn_overlay">
-                    <a href="/" className="btn" onClick={(e) => handleSeeMore(e, film)}>
-                      See More
-                    </a>
-                  </div>
-                </div>
+              <div className="img-box" style={{ position: 'relative', width: '300px', height: '200px', overflow: 'hidden' }}>
+  <img 
+    src={film.image || 'images/p1.jpg'} 
+    alt={film.name} 
+    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+  />
+  <div className="btn_overlay">
+    <a href="/" className="btn" onClick={(e) => handleSeeMore(e, film)}>
+      See More
+    </a>
+  </div>
+</div>
+
               </div>
             </div>
           </div>

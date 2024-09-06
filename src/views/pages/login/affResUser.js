@@ -33,21 +33,45 @@ const ReservationList = () => {
   const handleUpload = (reservationId) => {
     const reservation = reservations.find(res => res.id === reservationId);
     if (reservation) {
-      const doc = new jsPDF();
-      
-      doc.text('Reservation Details', 10, 10);
-      doc.text(`Film Name: ${reservation.filmName}`, 10, 20);
-      doc.text(`Date: ${new Date(reservation.date).toLocaleDateString('en-GB')}`, 10, 30);
-      doc.text(`Child Seats: ${reservation.nbOfplaceReserveEnfant}`, 10, 40);
-      doc.text(`Adult Seats: ${reservation.numberOfPlaceAdulte}`, 10, 50);
-      doc.text(`Total Price: $${reservation.totalPrice}`, 10, 60);
+        const doc = new jsPDF();
+        
+        // Set font and size
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(12);
+
+        // Define orange color
+        const orangeColor = [230, 126, 48]; // RGB value for #e67e30
+        
+        // Draw thick orange border rectangle
+        doc.setDrawColor(...orangeColor);
+        doc.setLineWidth(3); // Make the border line a bit thicker
+        doc.rect(10, 10, 190, 90); // Adjust the width and height as needed
+        
+        // Set text color
+        doc.setTextColor(0, 0, 0); // Set text color to black for contrast
+
+        // Set title font style to italic and underline
+        doc.setFont("Helvetica", "italic");
+        doc.text('Reservation Details', 105, 20, { align: 'center' });
+        doc.setTextColor(...orangeColor);
+        doc.text('Reservation Details', 105, 20, { align: 'center', underline: true });
+
+        // Add the text inside the rectangle
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Reset text color to black
+        doc.text(`Film Name: ${reservation.filmName}`, 15, 30);
+        doc.text(`Date: ${new Date(reservation.date).toLocaleDateString('en-GB')}`, 15, 40);
+        doc.text(`Child Seats: ${reservation.nbOfplaceReserveEnfant}`, 15, 50);
+        doc.text(`Adult Seats: ${reservation.numberOfPlaceAdulte}`, 15, 60);
+        doc.text(`Total Price: $${reservation.totalPrice}`, 15, 70);
   
-      // Save the PDF
-      doc.save(`reservation_${reservationId}.pdf`);
+        // Save the PDF
+        doc.save(`reservation_${reservationId}.pdf`);
     } else {
-      console.error('Reservation not found');
+        console.error('Reservation not found');
     }
-  }
+}
 
   const visibleFilms = films.slice(currentIndex, currentIndex + productsPerPage)
 
@@ -254,6 +278,15 @@ const ReservationList = () => {
       <br></br>
       <br></br>
       <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br><br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       
       <div className="heading_container heading_center">
             <h2>Your Reservations</h2>
@@ -280,9 +313,13 @@ const ReservationList = () => {
                 <div className="">
                   <div className="box">
                     <div className="">
-                      <img src={reservation.imageUrl || 'images/p1.jpg'} alt={reservation.filmName} />
-                      
-                    </div>
+  <img 
+    src={reservation.image || 'images/p1.jpg'} 
+    alt={reservation.filmName} 
+    style={{ width: '300px', height: '320px', objectFit: 'cover' }} 
+  />
+</div>
+
                   </div>
                   <div className="portfolio_info">
                     <h2 className="titlee">{reservation.filmName}</h2>
@@ -297,7 +334,7 @@ const ReservationList = () => {
                       <button className="btn btn-primary" onClick={() => handleUpload(reservation.id)}>
                         Upload
                       </button>
-                      <button className="btn btn-danger" onClick={() => handleDelete(reservation.id)}>
+                      <button className="btn btn-danger"style={{ backgroundColor: '#e67e30', color: '#fff' , marginLeft:5}}  onClick={() => handleDelete(reservation.id)}>
                         Delete
                       </button>
                     </div>

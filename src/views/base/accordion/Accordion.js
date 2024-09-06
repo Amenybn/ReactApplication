@@ -75,7 +75,7 @@ const ReservationTable = () => {
           </CInputGroupText>
           <CFormInput
             type="text"
-            placeholder="Search films..."
+            placeholder="Search reservations..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -107,10 +107,17 @@ const ReservationTable = () => {
                 </CButton>
               </CTableDataCell>
               <CTableDataCell>{reservation.filmName}</CTableDataCell>
-              <CTableDataCell>{reservation.date}</CTableDataCell>
+              <CTableDataCell>
+  {new Date(reservation.date).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })}
+</CTableDataCell>
+
               <CTableDataCell>{reservation.nbOfplaceReserveEnfant}</CTableDataCell>
               <CTableDataCell>{reservation.numberOfPlaceAdulte}</CTableDataCell>
-              <CTableDataCell>${reservation.totalPrice}</CTableDataCell>
+              <CTableDataCell>{reservation.totalPrice}DT</CTableDataCell>
             </CTableRow>
           ))}
         </CTableBody>

@@ -56,6 +56,7 @@ const DetailProduct = () => {
       totalPrice: parseFloat(totalPrice),
       username: user.username,
       email: email,
+      image: film.image,
       phoneNumber: phone,
       filmName: film.name,
     };
@@ -98,7 +99,7 @@ const DetailProduct = () => {
           <div className="header_top">
             <div className="container-fluid header_top_container">
               <a className="navbar-brand" href="index.html">
-                Tro<span>Weld</span>
+                Cine<span>Click</span>
               </a>
               <div className="contact_nav">
                 <a href="">
@@ -107,11 +108,11 @@ const DetailProduct = () => {
                 </a>
                 <a href="">
                   <i className="fa fa-phone" aria-hidden="true"></i>
-                  <span>Call : +01 123455678990</span>
+                  <span>Call : +216 75888000</span>
                 </a>
                 <a href="">
                   <i className="fa fa-envelope" aria-hidden="true"></i>
-                  <span>demo@gmail.com</span>
+                  <span>cineclick@gmail.com</span>
                 </a>
               </div>
               <div className="social_box">
@@ -206,12 +207,13 @@ const DetailProduct = () => {
                     </h2>
                   </div>
                   <p>Date: {new Date(film.date).toLocaleDateString('en-GB')}</p>
-                  <p>{film.description}</p>
+<p style={{ textAlign: 'justify' }}>{film.description}</p>
+
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="img-box">
-                  <img src={film.imageUrl || 'images/p3.jpg'} alt={film.name} />
+                  <img src={film.image || 'images/p3.jpg'} alt={film.name} />
                 </div>
               </div>
             </div>
@@ -235,7 +237,7 @@ const DetailProduct = () => {
                     </span>
                   </p>
                   <p className="text-dark">
-                    <i className="fa fa-check text-primary me-2"></i>  seats
+                    <i className="fa fa-check text-primary me-2"></i> 40 seats
                     remaining
                   </p>
                   <p className="mb-4">

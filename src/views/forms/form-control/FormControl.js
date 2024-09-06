@@ -173,19 +173,21 @@ const FilmTable = () => {
                   <CFormCheck />
                 </CTableDataCell>
                 <CTableDataCell>
-                  <CImage
-                    src="https://amani-layer.s3.us-east-1.amazonaws.com/t%C3%A9l%C3%A9chargement.jpeg?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAIaCXVzLWVhc3QtMSJHMEUCIHiMnFpWa3xHRbXH0HCMgpjFJBguP0lSMB4BWx4uZBzmAiEA8k4ssIVBXkPCEZ4AiK3BhyIyMbZxh7kmvjnMIT4vP9sq3gMI2%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw4OTA3MTU1MTM3MzciDLjR122v0q%2B9mYrAaiqyA3V%2BpS%2FhpKn8tJ2NZ1IxJ5%2FVqYC0qPyTsO0NNjNbwlnMQf7oNqeFyMeHGWS5ru0A%2BPdpbTBSBK6wKcru4DQzEhKlFtfs1bx3J8EUuQlGZ7LU1WdNpSAUHczM6mf8ybu3rJ8ycHD9t5R%2Fb728tewMLUYzrVhFnY8jjkPHNhDXRAqa05uM1yAsHMwZRw3W%2BWC1RxlkMQL%2BwTW9SKGpTpT7s7DMwmjA2cemWrjOn5IDRD%2FuFXAofttywWXdJE%2BS9ilrO28f%2FZ3sE0seFafL5dX5kprNH5TIvYMlOG9Mvvb%2BtOLOIKm8NDXgEEl8lmzZRCeOtsGQODFN%2FISs3Ek5vKar5qu6EeVd2sYqVfKm8PUYt1UR%2BfdcD%2FtcOVpOfO6mgjoJDjMQorH%2BudBIdS7RYowtHIVeINBLUkLsjDr1Soic7eEyApsGDVNZdD3wklIGY6nbWwySHGkXp1XjrU4bEwj2SgDR7nWlLqwoB8imVqYhXz2PPdu8UwmfCo6saDyqxKW8Jp3HCnpkF92ADuf2FIK6h%2F%2FJL0L3hQwh9NCFlGk8%2BhbxKfeXMM36yp83Ve6fzUBzT2w3MMCqj7UGOpQCVZ37M8%2FsNkSuTGtjs%2B1Y3fppEIEh11Q3i%2BTojMACDWDay%2FP7GG0GjgkWCTiRhgTtpZRMUcxKc7py2TrDQf1xNovDKzgUgBlpxHVOiBxNHedYep0LtsqK8%2Bpys0KG%2BI7ms6RBC70eZk%2B4Ez0Z6u7ANRfL79dn2PyQQHWhV7nglJQHDE%2FBlot%2FXISC254%2BcXH1NCf7LC3sNGsJ7ttZ2TkCaIAXSl6Tlob8DcCeonaA1ZiORYB7g5wCoEO9yt16LWHeTQt1D5K8GAjsWS6SucoA6pvKCReTNqSTNRg7hTdBqU%2FFxOyg493ou3gH7WmbipNmoCc0APDc2LkBvMccFelYHzILki4G8qKauKdcSAJ4rG%2Bo07xl&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240726T173003Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA46YWIEOE3POUN3VY%2F20240726%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=a45d5df9b162245bc797245f1abebf371249ded077a793f37efd7ac880d47226"
-                    alt={film.name}
-                    width={50}
-                    height={50}
-                  />
-                </CTableDataCell>
+  <img src={film.image} alt="Film Image" style={{ width: '100px', height: 'auto' }} />
+</CTableDataCell>
+
                 <CTableDataCell>{film.name}</CTableDataCell>
                 <CTableDataCell>${film.adultPrice}</CTableDataCell>
                 <CTableDataCell>${film.childPrice}</CTableDataCell>
                 <CTableDataCell>{film.room}</CTableDataCell>
                 <CTableDataCell>{film.numberOfPlaces}</CTableDataCell>
-                <CTableDataCell>{film.date}</CTableDataCell>
+                <CTableDataCell>
+  {new Date(film.date).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })}
+</CTableDataCell>
                 <CTableDataCell>{film.description}</CTableDataCell>
                 <CTableDataCell>
                   <CButton color="warning" onClick={() => handleEdit(film)}>
