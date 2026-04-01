@@ -199,7 +199,7 @@ a:focus {
 }
 
 .header_section .header_top .contact_nav a:hover i {
-  background-color: #da7426;
+  background-color: #b85a14;
 }
 
 .header_section .header_top .social_box {
@@ -227,7 +227,7 @@ a:focus {
 }
 
 .header_section .header_top .social_box a:hover i {
-  background-color: #da7426;
+  background-color: #b85a14;
 }
 
 .header_section .header_bottom {
@@ -470,7 +470,7 @@ a:focus {
 .slider_section .detail-box .btn-box .btn2 {
   display: inline-block;
   padding: 10px 15px;
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
   border-radius: 0;
   -webkit-transition: all .3s;
@@ -519,7 +519,7 @@ a:focus {
 }
 
 .slider_section .carousel_btn-box a:hover {
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
 }
 
@@ -556,7 +556,7 @@ a:focus {
 .about_section .detail-box a {
   display: inline-block;
   padding: 10px 35px;
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
   border-radius: 0px;
   -webkit-transition: all .3s;
@@ -659,7 +659,7 @@ a:focus {
 }
 
 .portfolio_section .box .img-box .btn_overlay a:hover {
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
 }
 
@@ -775,7 +775,7 @@ a:focus {
 }
 
 .service_section .box:hover {
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
 }
 
@@ -797,7 +797,7 @@ a:focus {
 .service_section .btn-box a {
   display: inline-block;
   padding: 10px 45px;
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
   border-radius: 0;
   -webkit-transition: all .3s;
@@ -880,7 +880,7 @@ a:focus {
   text-transform: uppercase;
   display: inline-block;
   padding: 12px 55px;
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
   border-radius: 0px;
   -webkit-transition: all .3s;
@@ -994,7 +994,7 @@ a:focus {
 }
 
 .client_section .carousel-indicators li {
-  background-color: #da7426;
+  background-color: #b85a14;
   width: 20px;
   height: 20px;
   border: none;
@@ -1058,7 +1058,7 @@ a:focus {
   color: #ffffff;
   width: 30px;
   height: 30px;
-  background-color: #da7426;
+  background-color: #b85a14;
   border-radius: 100%;
   margin-right: 5px;
 }
@@ -1145,7 +1145,7 @@ a:focus {
 .info_form form button {
   width: 45px;
   height: 45px;
-  background-color: #da7426;
+  background-color: #b85a14;
   color: #ffffff;
   border: none;
   outline: none;

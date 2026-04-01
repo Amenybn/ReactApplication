@@ -42,6 +42,26 @@ export default defineConfig(() => {
       ],
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
     },
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      setupFiles: ['./src/test/setupTests.js'],
+      css: true,
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'html', 'lcov'],
+        reportsDirectory: './coverage',
+        include: ['src/**/*.{js,jsx}'],
+        exclude: [
+          '**/*.d.ts',
+          '**/src/js/**',
+          '**/src/views/pages/login/**',
+          '**/src/**/index.js',
+          '**/src/index.js',
+          '**/src/main.*',
+        ],
+      },
+    },
     server: {
       port: 3000,
       proxy: {

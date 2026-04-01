@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import React, { useRef } from 'react'
 import '../../../css/bootstrap.css'
 import '../../../css/font-awesome.min.css'
 import '../../../css/style.css'
@@ -8,35 +6,11 @@ import '../../../css/responsive.css'
 import logo from '../../../images/about-img.png'
 
 const Contact = () => {
-  const navigate = useNavigate()
-  const [films, setFilms] = useState([])
-  const [showMore, setShowMore] = useState(false)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const productsPerPage = 3
-  const totalProducts = films.length
-
   const aboutRef = useRef(null)
   const mapRef = useRef(null)
 
-  const handleNext = () => {
-    if (currentIndex + productsPerPage < totalProducts) {
-      setCurrentIndex(currentIndex + productsPerPage)
-    }
-  }
-
-  const handlePrev = () => {
-    if (currentIndex - productsPerPage >= 0) {
-      setCurrentIndex(currentIndex - productsPerPage)
-    }
-  }
-
-  const visibleFilms = films.slice(currentIndex, currentIndex + productsPerPage)
-
-  
-
   const handleReadMoreClick = (event) => {
     event.preventDefault()
-    setShowMore(!showMore)
     if (aboutRef.current) {
       aboutRef.current.scrollIntoView({ behavior: 'smooth' })
     }
@@ -48,27 +22,6 @@ const Contact = () => {
       mapRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
-
-  useEffect(() => {
-    const fetchFilms = async () => {
-      try {
-        const response = await axios.get(
-          'https://7r5lw4iss0.execute-api.us-east-1.amazonaws.com/production/products',
-        )
-        const responseData = JSON.parse(response.data.body)
-
-        if (Array.isArray(responseData)) {
-          setFilms(responseData)
-        } else {
-          console.error('Error: Response data is not an array', responseData)
-        }
-      } catch (error) {
-        console.error('Error fetching films:', error)
-      }
-    }
-
-    fetchFilms()
-  }, [])
 
   return (
     <div className="hero_area">
@@ -84,26 +37,26 @@ const Contact = () => {
                 <i className="fa fa-map-marker" aria-hidden="true"></i>
                 <span>Location</span>
               </a>
-              <a href="">
+              <a href="tel:+21675888000">
                 <i className="fa fa-phone" aria-hidden="true"></i>
                 <span>Call : +216 75888000</span>
               </a>
-              <a href="">
+              <a href="mailto:cineclick@gmail.com">
                 <i className="fa fa-envelope" aria-hidden="true"></i>
                 <span>cineclick@gmail.com</span>
               </a>
             </div>
             <div className="social_box">
-              <a>
+              <a href="#" aria-label="Facebook">
                 <i className="fa fa-facebook" aria-hidden="true"></i>
               </a>
-              <a>
+              <a href="#" aria-label="Twitter">
                 <i className="fa fa-twitter" aria-hidden="true"></i>
               </a>
-              <a>
+              <a href="#" aria-label="LinkedIn">
                 <i className="fa fa-linkedin" aria-hidden="true"></i>
               </a>
-              <a>
+              <a href="#" aria-label="Instagram">
                 <i className="fa fa-instagram" aria-hidden="true"></i>
               </a>
             </div>
@@ -134,7 +87,14 @@ const Contact = () => {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="about.html" onClick={(e) => { e.preventDefault(); aboutRef.current.scrollIntoView({ behavior: 'smooth' }) }}>
+                    <a
+                      className="nav-link"
+                      href="about.html"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        aboutRef.current?.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                    >
                       About
                     </a>
                   </li>
@@ -161,7 +121,7 @@ const Contact = () => {
                     </a>
                   </li>
                   <form className="form-inline">
-                    <button className="btn my-2 my-sm-0 nav_search-btn" type="submit">
+                    <button className="btn my-2 my-sm-0 nav_search-btn" type="submit" aria-label="Search">
                       <i className="fa fa-search" aria-hidden="true"></i>
                     </button>
                   </form>
